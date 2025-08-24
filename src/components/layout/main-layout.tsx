@@ -38,8 +38,7 @@ export function MainLayout({
           contentClassName
         )}
       >
-        {/* Spacer for fixed header */}
-        {showHeader && <Toolbar />}
+        {/* Spacer for fixed header removed */}
         
         {/* Page Content */}
         <Box className="flex-1">
