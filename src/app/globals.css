@@ -108,11 +108,11 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   
-  /* 可爱卡通字体系统 */
-  /* 字体族 - 圆润友好 */
-  --font-primary: 'Nunito', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  --font-heading: 'Comfortaa', 'Nunito', 'PingFang SC', sans-serif;
-  --font-cute: 'Quicksand', 'Nunito', sans-serif;
+  /* 国际化字体系统 */
+  /* 字体族 - 支持中日韩及繁体中文 */
+  --font-primary: 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
+  --font-cute: 'Quicksand', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   
   /* 字体大小 - 提升可读性 */

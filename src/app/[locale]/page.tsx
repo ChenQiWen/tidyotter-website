@@ -36,14 +36,14 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
             <img 
               src="/logo/logo.png" 
               alt="FileZen Logo" 
-              className="w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44"
+              className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64"
             />
           </Box>
           
           {/* FileZen 标题 */}
           <Typography
             variant="h1"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold text-white mb-4"
           >
             FileZen
           </Typography>
@@ -51,13 +51,13 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
           {/* Slogan */}
           <Typography
             variant="h2"
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 font-medium mb-8"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white/90 font-bold mb-8"
           >
             文件 各归其位
           </Typography>
           
           {/* 按钮组 */}
-          <Box className="flex flex-col sm:flex-row justify-center gap-8 sm:gap-4">
+          <Box className="flex flex-col sm:flex-row justify-center gap-8 sm:gap-4 mt-20">
             <Button
               variant="contained"
               size="large"
@@ -71,10 +71,12 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
                 borderRadius: '50px',
                 background: 'linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)',
                 boxShadow: '0 6px 24px rgba(255, 140, 66, 0.3)',
+                color: 'white',
                 '&:hover': {
                   background: 'linear-gradient(135deg, #FF7A28 0%, #FF5722 100%)',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 8px 32px rgba(255, 140, 66, 0.4)',
+                  color: 'white',
                 },
                 transition: 'all 0.3s ease',
               }}
@@ -101,6 +103,7 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
                   borderColor: 'rgba(255, 255, 255, 0.6)',
                   background: 'rgba(255, 255, 255, 0.2)',
                   transform: 'translateY(-2px)',
+                  color: 'white',
                 },
                 transition: 'all 0.3s ease',
               }}

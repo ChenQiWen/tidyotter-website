@@ -37,12 +37,15 @@ const colors = {
   },
 };
 
-// 基础主题配置 - 圆润可爱字体系统
+// 基础主题配置 - 国际化字体系统
 const baseTheme: ThemeOptions = {
   typography: {
     fontFamily: [
       'Nunito',
-      'PingFang SC',
+      'Noto Sans SC',
+      'Noto Sans TC',
+      'Noto Sans JP',
+      'Noto Sans KR',
       'Hiragino Sans GB',
       'Microsoft YaHei',
       'WenQuanYi Micro Hei',
@@ -52,62 +55,62 @@ const baseTheme: ThemeOptions = {
       fontSize: '2.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     h2: {
       fontSize: '2rem',
       fontWeight: 600,
       lineHeight: 1.3,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     h3: {
       fontSize: '1.5rem',
       fontWeight: 600,
       lineHeight: 1.4,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     h4: {
       fontSize: '1.25rem',
       fontWeight: 600,
       lineHeight: 1.4,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     h5: {
       fontSize: '1.125rem',
       fontWeight: 600,
       lineHeight: 1.4,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     h6: {
       fontSize: '1rem',
       fontWeight: 600,
       lineHeight: 1.4,
-      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Comfortaa', 'Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     body1: {
       fontSize: '1rem',
       lineHeight: 1.6,
-      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     body2: {
       fontSize: '0.875rem',
       lineHeight: 1.6,
-      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     button: {
-      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
       fontWeight: 600,
       textTransform: 'none',
     },
     caption: {
       fontSize: '0.75rem',
       lineHeight: 1.4,
-      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
     },
     overline: {
       fontSize: '0.75rem',
       lineHeight: 1.4,
-      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
       textTransform: 'uppercase',
     },
   },
@@ -123,7 +126,7 @@ const baseTheme: ThemeOptions = {
           padding: '10px 24px',
           fontSize: '1rem',
           fontWeight: 600,
-          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+          fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
           '&:hover': {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
@@ -147,7 +150,7 @@ const baseTheme: ThemeOptions = {
         root: {
           '& .MuiOutlinedInput-root': {
             borderRadius: 12,
-            fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+            fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
           },
         },
       },
@@ -155,7 +158,7 @@ const baseTheme: ThemeOptions = {
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+          fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
         },
       },
     },
@@ -163,7 +166,7 @@ const baseTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+          fontFamily: ['Nunito', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'sans-serif'].join(','),
           fontWeight: 500,
         },
       },

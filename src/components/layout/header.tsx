@@ -64,15 +64,16 @@ export function Header() {
           position="fixed" 
           elevation={0}
           sx={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.95) 100%)',
-            backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(255, 140, 66, 0.15)',
-            boxShadow: '0 8px 32px rgba(255, 140, 66, 0.12)',
-            transition: 'all 0.3s ease-in-out',
-            '&:hover': {
-              boxShadow: '0 12px 40px rgba(255, 140, 66, 0.18)',
-            },
-          }}
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.95) 100%)',
+              backdropFilter: 'blur(20px)',
+              borderBottom: '1px solid rgba(255, 140, 66, 0.15)',
+              boxShadow: '0 8px 32px rgba(255, 140, 66, 0.12)',
+              transition: 'all 0.3s ease-in-out',
+              borderRadius: '0 0 16px 16px',
+              '&:hover': {
+                boxShadow: '0 12px 40px rgba(255, 140, 66, 0.18)',
+              },
+            }}
         >
           <Container maxWidth="xl">
             <Toolbar 
@@ -93,34 +94,9 @@ export function Header() {
                     sx={{
                       width: { xs: 48, md: 52 },
                       height: { xs: 48, md: 52 },
-                      borderRadius: 3,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: '0 8px 25px rgba(255, 140, 66, 0.25)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.12) 0%, rgba(255, 217, 61, 0.12) 100%)',
-                      border: '1px solid rgba(255, 140, 66, 0.2)',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: '-100%',
-                        width: '100%',
-                        height: '100%',
-                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
-                        transition: 'left 0.5s',
-                      },
-                      '&:hover': {
-                        background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.2) 0%, rgba(255, 217, 61, 0.2) 100%)',
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 12px 35px rgba(255, 140, 66, 0.35)',
-                      },
-                      '&:hover::before': {
-                        left: '100%',
-                      },
                     }}
                   >
                     <Image
@@ -157,18 +133,21 @@ export function Header() {
                       >
                         <Link
                           href={item.href}
-                          className="relative px-4 py-2 font-semibold text-lg text-gray-700 dark:text-gray-300 hover:text-transparent transition-all duration-300 group"
+                          className="relative px-4 py-2 font-semibold text-lg hover:text-white transition-all duration-300 group"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%)',
+                            background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.25) 0%, rgba(255, 217, 61, 0.25) 100%)',
                             borderRadius: '12px',
-                            border: '1px solid rgba(255, 140, 66, 0.12)',
-                            boxShadow: '0 4px 15px rgba(255, 140, 66, 0.08)',
+                            border: '1px solid rgba(255, 140, 66, 0.4)',
+                            boxShadow: '0 4px 15px rgba(255, 140, 66, 0.2)',
+                            color: '#FF8C42',
                           }}
                         >
-                          <span className="relative z-10 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:via-yellow-500 group-hover:to-red-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                          <span className="relative z-10 font-bold" style={{
+                            color: '#FF8C42',
+                          }}>
                             {t(item.key)}
                           </span>
-                          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-red-400/10 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-yellow-500/30 to-red-400/30 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
                           <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-500 via-yellow-500 to-red-400 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></div>
                         </Link>
                       </motion.div>
@@ -176,6 +155,9 @@ export function Header() {
                   </nav>
                 </Box>
               )}
+
+              {/* Mobile: Spacer to push actions to right */}
+              {!isMd && <Box sx={{ flexGrow: 1 }} />}
 
               {/* Right side actions */}
               <div className="flex items-center space-x-4">
@@ -199,14 +181,14 @@ export function Header() {
                         fontWeight: 600,
                         textTransform: 'none',
                         fontSize: '1rem',
-                        boxShadow: '0 6px 20px rgba(255, 140, 66, 0.3)',
-                        border: 'none',
+                        boxShadow: '0 6px 20px rgba(255, 140, 66, 0.5)',
+                        border: '2px solid rgba(255, 140, 66, 0.6)',
                         position: 'relative',
                         overflow: 'hidden',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E74C3C 100%)',
-                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.4)',
-                          transform: 'translateY(-2px)',
+                          background: 'linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFD93D 100%)',
+                          boxShadow: '0 12px 35px rgba(255, 140, 66, 0.6)',
+                          transform: 'scale(1.05) translateY(-2px)',
                         },
                         '&::before': {
                           content: '""',
@@ -297,17 +279,21 @@ export function Header() {
                     >
                       <Link
                         href={item.href}
-                        className="block px-5 py-4 rounded-2xl font-semibold text-lg text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-500 relative overflow-hidden group"
+                        className="block px-5 py-4 rounded-2xl font-semibold text-lg hover:text-white transition-all duration-500 relative overflow-hidden group"
                         onClick={() => setMobileMenuOpen(false)}
                         style={{
-                          background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%)',
-                          border: '1px solid rgba(255, 140, 66, 0.15)',
-                          boxShadow: '0 4px 15px rgba(255, 140, 66, 0.1)',
+                          background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.25) 0%, rgba(255, 217, 61, 0.25) 100%)',
+                          border: '1px solid rgba(255, 140, 66, 0.4)',
+                          boxShadow: '0 4px 15px rgba(255, 140, 66, 0.2)',
+                          color: '#FF8C42',
                         }}
                       >
                         <span className="relative z-10 flex items-center space-x-3">
                           <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-125"></span>
-                          <span>{t(item.key)}</span>
+                          <span style={{
+                            color: '#FF8C42',
+                            fontWeight: 'bold'
+                          }}>{t(item.key)}</span>
                         </span>
                         <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-yellow-500 to-red-400 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl transform scale-x-0 group-hover:scale-x-100 origin-left"></div>
                       </Link>
@@ -344,14 +330,14 @@ export function Header() {
                           fontWeight: 600,
                           textTransform: 'none',
                           fontSize: '1.125rem',
-                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.35)',
-                          border: 'none',
+                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.5)',
+                          border: '2px solid rgba(255, 140, 66, 0.6)',
                           position: 'relative',
                           overflow: 'hidden',
                           '&:hover': {
-                            background: 'linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E74C3C 100%)',
-                            boxShadow: '0 12px 35px rgba(255, 140, 66, 0.45)',
-                            transform: 'translateY(-2px)',
+                            background: 'linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFD93D 100%)',
+                            boxShadow: '0 12px 35px rgba(255, 140, 66, 0.6)',
+                            transform: 'scale(1.05) translateY(-2px)',
                           },
                           '&::before': {
                             content: '""',
