@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset"
+  },
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "download": "Download",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "help": "Help Center",
+    "reservation": "Reserve Experience",
+    "theme": {
+      "light": "Light Mode",
+      "dark": "Dark Mode",
+      "system": "Follow System"
+    }
+  },
+  "hero": {
+    "title": "Smart Desktop File Organizer",
+    "subtitle": "Keep your desktop clean and boost productivity",
+    "description": "FileZen is a powerful desktop file management tool that automatically organizes your files, making your workspace more organized.",
+    "cta_primary": "Download Now",
+    "cta_secondary": "Learn More",
+    "watch_demo": "Watch Demo"
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Comprehensive file management solutions for you",
+    "auto_organize": {
+      "title": "Auto Organization",
+      "description": "Intelligently recognizes file types and automatically categorizes them into appropriate folders"
+    },
+    "smart_rules": {
+      "title": "Smart Rules",
+      "description": "Customize organization rules to make file management more suited to your habits"
+    },
+    "batch_operations": {
+      "title": "Batch Operations",
+      "description": "Support batch renaming, moving, copying and other operations to improve efficiency"
+    },
+    "safe_backup": {
+      "title": "Safe Backup",
+      "description": "Automatically backup important files to ensure data security"
+    }
+  },
+  "reservation": {
+    "title": "Reserve Experience",
+    "subtitle": "Leave your contact information and we'll notify you first when the product launches",
+    "cta": "Reserve Now",
+    "success": "Reservation successful! We'll contact you soon.",
+    "success_message": "Thank you for your reservation! We have received your information and will notify you first when the product is officially released.",
+    "form": {
+      "email": {
+        "label": "Email Address",
+        "placeholder": "Please enter your email address"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Please enter your name"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "Please enter your phone number (optional)"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Please tell us your expectations or suggestions for the product (optional)"
+      },
+      "submit": "Submit Reservation",
+      "submitting": "Submitting...",
+      "privacy_notice": "We promise to protect your privacy and will not share your personal information with third parties."
+    }
+  },
+  "footer": {
+    "description": "FileZen is committed to providing users with the best desktop file management experience.",
+    "copyright": "All rights reserved",
+    "additional_info": "This product is under development, please stay tuned for the official release.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "download": "Download",
+      "pricing": "Pricing",
+      "changelog": "Changelog"
+    },
+    "support": {
+      "title": "Support",
+      "help": "Help Center",
+      "contact": "Contact Us",
+      "faq": "FAQ",
+      "feedback": "Feedback"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "blog": "Blog",
+      "careers": "Careers",
+      "press": "Press"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy",
+      "security": "Security"
+    }
+  }
+}
