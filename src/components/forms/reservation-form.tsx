@@ -220,9 +220,8 @@ export function ReservationForm({
       {/* Submit Button */}
       <Button
         type="submit"
-        variant="primary"
+        variant="contained"
         size="large"
-        loading={isSubmitting}
         disabled={!isValid || isSubmitting || submitStatus.type === 'success'}
         className="w-full"
       >

@@ -1,7 +1,9 @@
-import { Metadata } from 'next';
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
-import { Container, Typography, Box, Card, CardContent, Button } from '@mui/material';
+import { useCallback } from 'react';
+import { Container, Typography, Box, Card, CardContent } from '@mui/material';
+import { Button } from '@/components';
 import { 
   AutoAwesome, 
   Security, 
@@ -16,47 +18,7 @@ import { MainLayout, ReservationForm } from '@/components';
 import { cn } from '@/utils';
 import { event } from '@/lib/analytics';
 
-// 生成页面元数据
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ locale: string }> 
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'hero' });
-  
-  return {
-    title: t('title'),
-    description: t('description'),
-    keywords: [
-      'FileZen',
-      '文件整理',
-      '桌面清理',
-      'file organizer',
-      'desktop cleaner',
-      '自动整理',
-      'auto organize'
-    ],
-    openGraph: {
-      title: t('title'),
-      description: t('description'),
-      type: 'website',
-      locale: locale,
-      alternateLocale: locale === 'zh' ? 'en' : 'zh',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: t('title'),
-      description: t('description'),
-    },
-    alternates: {
-      languages: {
-        'zh': '/zh',
-        'en': '/en',
-      },
-    },
-  };
-}
+
 
 // 功能特性数据
 const features = [
@@ -86,17 +48,17 @@ const features = [
 function HeroSection() {
   const t = useTranslations('hero');
   
-  const handleDownloadClick = () => {
+  const handleDownloadClick = useCallback(() => {
     event('download_clicked', { source: 'hero' });
     // TODO: 实际下载逻辑
     console.log('Download clicked');
-  };
+  }, []);
   
-  const handleWatchDemoClick = () => {
+  const handleWatchDemoClick = useCallback(() => {
     event('demo_clicked', { source: 'hero' });
     // TODO: 演示视频逻辑
     console.log('Watch demo clicked');
-  };
+  }, []);
   
   return (
     <Box
@@ -344,15 +306,15 @@ function ReservationSection() {
 
 // 社交链接区域组件
 function SocialSection() {
-  const handleGitHubClick = () => {
+  const handleGitHubClick = useCallback(() => {
     event('social_clicked', { platform: 'github' });
     window.open(process.env.NEXT_PUBLIC_GITHUB_URL, '_blank');
-  };
+  }, []);
   
-  const handleTwitterClick = () => {
+  const handleTwitterClick = useCallback(() => {
     event('social_clicked', { platform: 'twitter' });
     window.open(`https://twitter.com/${process.env.NEXT_PUBLIC_TWITTER_HANDLE?.replace('@', '')}`, '_blank');
-  };
+  }, []);
   
   return (
     <Box component="section" className="py-16 bg-white dark:bg-gray-800">

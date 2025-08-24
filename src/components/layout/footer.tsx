@@ -28,6 +28,7 @@ export function Footer() {
   const footerSections = [
     {
       title: t('product.title'),
+      section: 'product',
       links: [
         { key: 'features', href: '#features' },
         { key: 'download', href: '#download' },
@@ -37,6 +38,7 @@ export function Footer() {
     },
     {
       title: t('support.title'),
+      section: 'support',
       links: [
         { key: 'help', href: '/help' },
         { key: 'contact', href: '/contact' },
@@ -46,6 +48,7 @@ export function Footer() {
     },
     {
       title: t('company.title'),
+      section: 'company',
       links: [
         { key: 'about', href: '/about' },
         { key: 'blog', href: '/blog' },
@@ -55,6 +58,7 @@ export function Footer() {
     },
     {
       title: t('legal.title'),
+      section: 'legal',
       links: [
         { key: 'privacy', href: '/privacy' },
         { key: 'terms', href: '/terms' },
@@ -175,7 +179,7 @@ export function Footer() {
                             className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm"
                             onClick={() => handleLinkClick(section.title, link.key)}
                           >
-                            {t(`${section.title.toLowerCase()}.${link.key}`)}
+                            {t(`${section.section}.${link.key}`)}
                           </Link>
                         </li>
                       ))}

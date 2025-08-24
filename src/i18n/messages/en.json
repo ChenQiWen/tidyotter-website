@@ -1,0 +1,70 @@
+{
+  "hero": {
+    "title": "Smart Desktop File Organizer",
+    "subtitle": "Keep Your Desktop Clean and Organized",
+    "description": "FileZen is a powerful desktop file organization tool that helps you automatically categorize and manage files, improving your productivity.",
+    "cta": "Download Now",
+    "secondary_cta": "Learn More"
+  },
+  "features": {
+    "title": "Core Features",
+    "subtitle": "Why Choose FileZen",
+    "auto_organize": {
+      "title": "Smart Organization",
+      "description": "Automatically identify file types and organize them into appropriate folders"
+    },
+    "custom_rules": {
+      "title": "Custom Rules",
+      "description": "Set personalized file organization rules according to your needs"
+    },
+    "real_time": {
+      "title": "Real-time Monitoring",
+      "description": "Monitor desktop changes in real-time and automatically maintain cleanliness"
+    }
+  },
+  "reservation": {
+    "title": "Reserve Experience",
+    "subtitle": "Get Early Access to FileZen's Powerful Features",
+    "description": "Leave your email and we'll notify you first when the product launches.",
+    "email_placeholder": "Enter your email address",
+    "submit": "Reserve Now",
+    "success": "Reservation successful! We'll notify you in time."
+  },
+  "social": {
+    "title": "Follow Us",
+    "subtitle": "Get Latest Updates and Technical Insights"
+  },
+  "footer": {
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "download": "Download",
+      "pricing": "Pricing",
+      "changelog": "Changelog"
+    },
+    "support": {
+      "title": "Support",
+      "help": "Help Center",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "feedback": "Feedback"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "blog": "Blog",
+      "careers": "Careers",
+      "press": "Press"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy",
+      "security": "Security"
+    },
+    "description": "FileZen is a smart desktop file organizer that helps you keep your desktop clean and organized.",
+    "copyright": "All rights reserved.",
+    "additional_info": "FileZen is committed to providing the best file management experience for users."
+  }
+}

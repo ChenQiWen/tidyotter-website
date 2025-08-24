@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* 自定义CSS变量 */
 :root {
@@ -92,89 +90,137 @@ a {
 }
 
 /* 工具类 */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .container-custom {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .section-padding {
-    padding: 4rem 0;
-  }
-  
-  .section-padding-sm {
-    padding: 2rem 0;
-  }
-  
-  .section-padding-lg {
-    padding: 6rem 0;
-  }
-  
-  .glass-effect {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .dark .glass-effect {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .gradient-text {
-    background: linear-gradient(135deg, #2196f3, #e91e63);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .gradient-bg {
-    background: linear-gradient(135deg, #2196f3, #e91e63);
-  }
-  
-  .shadow-material {
-    box-shadow: var(--shadow-medium);
-  }
-  
-  .transition-all {
-    transition: all var(--transition-normal);
-  }
+.text-balance {
+  text-wrap: balance;
+}
+
+.container-custom {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section-padding {
+  padding: 4rem 0;
+}
+
+.section-padding-sm {
+  padding: 2rem 0;
+}
+
+.section-padding-lg {
+  padding: 6rem 0;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2196f3, #e91e63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #2196f3, #e91e63);
+}
+
+.shadow-material {
+  box-shadow: var(--shadow-medium);
+}
+
+.transition-all {
+  transition: all var(--transition-normal);
 }
 
 /* 组件样式 */
-@layer components {
-  .btn-primary {
-    @apply bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-  }
-  
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
-  }
-  
-  .dark .btn-secondary {
-    @apply bg-gray-700 text-gray-100 hover:bg-gray-600;
-  }
-  
-  .card {
-    @apply bg-white rounded-2xl shadow-material p-6 transition-all hover:shadow-lg;
-  }
-  
-  .dark .card {
-    @apply bg-gray-800 border border-gray-700;
-  }
-  
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
-  }
-  
-  .dark .input-field {
-    @apply bg-gray-800 border-gray-600 text-white;
-  }
+.btn-primary {
+  background-color: rgb(37 99 235);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.btn-primary:hover {
+  background-color: rgb(29 78 216);
+}
+
+.btn-primary:focus {
+  outline: 2px solid rgb(59 130 246);
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  background-color: rgb(229 231 235);
+  color: rgb(17 24 39);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.btn-secondary:hover {
+  background-color: rgb(209 213 219);
+}
+
+.btn-secondary:focus {
+  outline: 2px solid rgb(107 114 128);
+  outline-offset: 2px;
+}
+
+.dark .btn-secondary {
+  background-color: rgb(55 65 81);
+  color: rgb(243 244 246);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgb(75 85 99);
+}
+
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .card {
+  background-color: rgb(31 41 55);
+  border: 1px solid rgb(55 65 81);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.5rem;
+  transition: all var(--transition-normal);
+}
+
+.input-field:focus {
+  outline: 2px solid rgb(59 130 246);
+  border-color: transparent;
+}
+
+.dark .input-field {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: white;
 }
 
 /* 响应式断点 */

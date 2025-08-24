@@ -1,110 +1,64 @@
 'use client';
 
 import React from 'react';
-import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material';
 import { cn } from '@/utils';
 
-export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'text';
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'contained' | 'outlined' | 'text';
   size?: 'small' | 'medium' | 'large';
-  loading?: boolean;
-  icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right';
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant = 'primary',
-      size = 'medium',
-      loading = false,
-      disabled,
-      children,
-      icon,
-      iconPosition = 'left',
-      ...props
-    },
-    ref
-  ) => {
-    const getVariant = (): MuiButtonProps['variant'] => {
-      switch (variant) {
-        case 'primary':
-          return 'contained';
-        case 'secondary':
-          return 'contained';
-        case 'outline':
-          return 'outlined';
-        case 'ghost':
-        case 'text':
-          return 'text';
-        default:
-          return 'contained';
-      }
-    };
-
-    const getColor = (): MuiButtonProps['color'] => {
-      switch (variant) {
-        case 'primary':
-          return 'primary';
-        case 'secondary':
-          return 'secondary';
-        default:
-          return 'primary';
-      }
-    };
-
-    const buttonContent = (
-      <>
-        {loading && (
-          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-        )}
-        {icon && iconPosition === 'left' && (
-          <span className={cn('flex items-center', children && 'mr-2')}>
-            {icon}
-          </span>
-        )}
-        {children}
-        {icon && iconPosition === 'right' && (
-          <span className={cn('flex items-center', children && 'ml-2')}>
-            {icon}
-          </span>
-        )}
-      </>
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    variant = 'contained', 
+    size = 'medium', 
+    startIcon, 
+    endIcon, 
+    children, 
+    className, 
+    disabled,
+    ...props 
+  }, ref) => {
+    const baseClasses = cn(
+      'inline-flex items-center justify-center gap-2',
+      'font-medium rounded-lg transition-all duration-200',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2',
+      'disabled:opacity-50 disabled:cursor-not-allowed',
+      {
+        // Size variants
+        'px-3 py-1.5 text-sm': size === 'small',
+        'px-4 py-2 text-base': size === 'medium',
+        'px-6 py-3 text-lg': size === 'large',
+        
+        // Style variants
+        'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500': 
+          variant === 'contained' && !disabled,
+        'border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:hover:bg-blue-900/20': 
+          variant === 'outlined' && !disabled,
+        'text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:hover:bg-blue-900/20': 
+          variant === 'text' && !disabled,
+      },
+      className
     );
 
     return (
-      <MuiButton
+      <button
         ref={ref}
-        variant={getVariant()}
-        color={getColor()}
-        size={size}
-        disabled={disabled || loading}
-        className={cn(
-          'transition-all duration-200',
-          {
-            'bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800':
-              variant === 'primary',
-            'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600':
-              variant === 'secondary',
-            'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20':
-              variant === 'outline',
-            'text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20':
-              variant === 'ghost',
-            'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800':
-              variant === 'text',
-            'opacity-50 cursor-not-allowed': disabled || loading,
-          },
-          className
-        )}
+        className={baseClasses}
+        disabled={disabled}
         {...props}
       >
-        {buttonContent}
-      </MuiButton>
+        {startIcon && <span className="flex-shrink-0">{startIcon}</span>}
+        <span>{children}</span>
+        {endIcon && <span className="flex-shrink-0">{endIcon}</span>}
+      </button>
     );
   }
 );
 
 Button.displayName = 'Button';
 
-export { Button };
+export type { ButtonProps };
