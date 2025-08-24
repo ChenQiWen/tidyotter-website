@@ -1,0 +1,21 @@
+{
+  "name": "FileZen - 智能桌面文件整理工具",
+  "short_name": "FileZen",
+  "description": "一键自动整理，让您的桌面井然有序",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

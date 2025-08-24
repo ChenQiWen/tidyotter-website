@@ -52,7 +52,7 @@ const features = [
   },
 ];
 
-// Hero 区域组件
+// Hero 区域组件 - 占满浏览器可视区域的门面
 function HeroSection({ onReservationClick }: { onReservationClick: () => void }) {
   const t = useTranslations('hero');
   
@@ -77,22 +77,29 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
     <Box
       component="section"
       className={cn(
-        'relative min-h-[100vh] flex items-center',
-        'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800',
+        'relative h-screen w-full flex items-center justify-center',
+        'bg-gradient-to-br from-orange-400 via-yellow-400 to-pink-400',
         'overflow-hidden'
       )}
     >
       {/* 动态背景装饰 */}
       <Box
         className={cn(
-          'absolute inset-0 overflow-hidden opacity-10',
+          'absolute inset-0 overflow-hidden opacity-20',
           'bg-[url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.4"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")]'
         )}
       />
       
+      {/* 额外的动态背景元素 */}
+      <Box className="absolute inset-0 overflow-hidden">
+        <Box className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse" />
+        <Box className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl animate-pulse animation-delay-2000" />
+        <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse animation-delay-4000" />
+      </Box>
+      
       {/* 浮动装饰元素 */}
       <FloatingCard 
-        className="absolute top-20 left-10 w-16 h-16 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center"
+        className="absolute top-20 left-10 w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-300/30"
         floatAnimation={true}
         delay={0}
       >
@@ -100,7 +107,7 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
       </FloatingCard>
       
       <FloatingCard 
-        className="absolute top-40 right-20 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center"
+        className="absolute top-40 right-20 w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-300/30"
         floatAnimation={true}
         delay={1}
       >
@@ -108,123 +115,120 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
       </FloatingCard>
       
       <FloatingCard 
-        className="absolute bottom-32 left-20 w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center"
+        className="absolute bottom-32 left-20 w-14 h-14 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-300/30"
         floatAnimation={true}
         delay={2}
       >
         <People className="w-7 h-7 text-white" />
       </FloatingCard>
       
-      <Container maxWidth="lg" className="relative z-10">
-        <Box className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <Box>
-            <ScrollAnimation animation="fadeInLeft">
-              <GradientText 
-                as="h1" 
-                gradient="custom" 
-                customGradient="linear-gradient(45deg, #ffffff 30%, #f0f0f0 90%)"
-                className="text-mobile-2xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight"
-                animated={true}
-              >
-                {t('title')}
-              </GradientText>
-            </ScrollAnimation>
+      <Container maxWidth="xl" className="relative z-10 h-full flex items-center">
+        <Box className="w-full text-center">
+          <ScrollAnimation animation="fadeInUp">
+            <GradientText 
+              as="h1" 
+              gradient="custom" 
+              customGradient="linear-gradient(45deg, #ffffff 30%, #f0f0f0 90%)"
+              className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold mb-8 leading-tight"
+              animated={true}
+            >
+              {t('title')}
+            </GradientText>
+          </ScrollAnimation>
             
-            <ScrollAnimation animation="fadeInLeft" delay={0.2}>
-              <Typography
-                variant="h5"
-                className="mb-6 opacity-90 leading-loose text-white text-mobile-lg sm:text-xl md:text-2xl"
-              >
-                {t('subtitle')}
-              </Typography>
-            </ScrollAnimation>
-            
-            <ScrollAnimation animation="fadeInLeft" delay={0.3}>
-              <Typography
-                variant="body1"
-                className="text-mobile-base sm:text-xl text-white/80 leading-loose mb-8"
-              >
-                {t('description')}
-              </Typography>
-            </ScrollAnimation>
-            
-            <ScrollAnimation animation="fadeInUp" delay={0.4}>
-              <Box className="flex flex-col sm:flex-row gap-4">
-                <ModernButton
-                  variant="gradient"
-                  size="lg"
-                  icon={<CalendarToday className="w-6 h-6" />}
-                  iconPosition="left"
-                  glowEffect={true}
-                  onClick={handleReservationClick}
-                  className={cn(
-                    'px-12 py-5 text-2xl font-bold text-white',
-                    'bg-gradient-to-r from-orange-500 via-red-500 to-pink-500',
-                    'hover:from-orange-600 hover:via-red-600 hover:to-pink-600',
-                    'shadow-2xl hover:shadow-orange-500/25',
-                    'transform hover:scale-110 transition-all duration-300',
-                    'animate-bounce hover:animate-none'
-                  )}
-                >
-                  🎯 预约体验
-                </ModernButton>
-                
-                <ModernButton
-                  variant="glass"
-                  size="lg"
-                  icon={<Download className="w-5 h-5" />}
-                  iconPosition="left"
-                  onClick={handleDownloadClick}
-                  className="text-white font-semibold border-white/50 hover:bg-white/10"
-                >
-                  {t('cta_primary')}
-                </ModernButton>
-                
-                <ModernButton
-                  variant="outline"
-                  size="lg"
-                  icon={<PlayArrow className="w-5 h-5" />}
-                  iconPosition="left"
-                  onClick={handleWatchDemoClick}
-                  className="border-white/50 text-white hover:bg-white/10 hover:border-white"
-                >
-                  {t('watch_demo')}
-                </ModernButton>
-              </Box>
-            </ScrollAnimation>
-          </Box>
+          <ScrollAnimation animation="fadeInUp" delay={0.2}>
+            <Typography
+              variant="h3"
+              className="mb-8 opacity-95 leading-relaxed text-white text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium"
+            >
+              {t('subtitle')}
+            </Typography>
+          </ScrollAnimation>
           
-          <Box>
-            <ScrollAnimation animation="fadeInRight" delay={0.3}>
-              <Box className="relative">
-                <FloatingCard
-                  variant="glass"
-                  hoverEffect="tilt"
-                  className="w-full max-w-md mx-auto h-80 flex items-center justify-center border border-white/20"
-                >
-                  <div className="text-center">
-                    <div className="mb-4">
-                      <div className="w-16 h-16 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4">
-                        <Zap className="w-8 h-8 text-white" />
-                      </div>
+          <ScrollAnimation animation="fadeInUp" delay={0.3}>
+            <Typography
+              variant="h6"
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-12 max-w-4xl mx-auto"
+            >
+              {t('description')}
+            </Typography>
+          </ScrollAnimation>
+            
+          <ScrollAnimation animation="fadeInUp" delay={0.4}>
+            <Box className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
+              <ModernButton
+                variant="gradient"
+                size="lg"
+                icon={<CalendarToday className="w-7 h-7" />}
+                iconPosition="left"
+                glowEffect={true}
+                onClick={handleReservationClick}
+                className={cn(
+                  'px-16 py-6 text-xl md:text-2xl lg:text-3xl font-bold text-white',
+                  'bg-gradient-to-r from-orange-500 via-red-500 to-pink-500',
+                  'hover:from-orange-600 hover:via-red-600 hover:to-pink-600',
+                  'shadow-2xl hover:shadow-orange-500/25',
+                  'transform hover:scale-110 transition-all duration-300',
+                  'animate-bounce hover:animate-none'
+                )}
+              >
+                🎯 预约体验
+              </ModernButton>
+              
+              <ModernButton
+                variant="glass"
+                size="lg"
+                icon={<Download className="w-6 h-6" />}
+                iconPosition="left"
+                onClick={handleDownloadClick}
+                className="text-white font-semibold border-white/50 hover:bg-white/10 px-12 py-6 text-lg md:text-xl"
+              >
+                {t('cta_primary')}
+              </ModernButton>
+              
+              <ModernButton
+                variant="outline"
+                size="lg"
+                icon={<PlayArrow className="w-6 h-6" />}
+                iconPosition="left"
+                onClick={handleWatchDemoClick}
+                className="border-white/50 text-white hover:bg-white/10 hover:border-white px-12 py-6 text-lg md:text-xl"
+              >
+                {t('watch_demo')}
+              </ModernButton>
+            </Box>
+          </ScrollAnimation>
+          
+          {/* 产品预览区域 */}
+          <ScrollAnimation animation="fadeInUp" delay={0.5}>
+            <Box className="relative max-w-2xl mx-auto">
+              <FloatingCard
+                variant="glass"
+                hoverEffect="tilt"
+                className="w-full h-64 md:h-80 lg:h-96 flex items-center justify-center border border-white/30 rounded-3xl shadow-2xl shadow-orange-300/20 bg-white/10 backdrop-blur-md"
+              >
+                <div className="text-center">
+                  <div className="mb-6">
+                    <div className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 mx-auto bg-gradient-to-br from-orange-300 to-yellow-300 rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+                      <Zap className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 text-white" />
                     </div>
-                    <Typography 
-                      variant="h6" 
-                      className="text-white opacity-90 font-bold"
-                    >
-                      产品演示图
-                    </Typography>
-                    <Typography 
-                      variant="body2" 
-                      className="text-white opacity-70 mt-1"
-                    >
-                      体验现代化的文件管理
-                    </Typography>
                   </div>
-                </FloatingCard>
-              </Box>
-            </ScrollAnimation>
-          </Box>
+                  <Typography 
+                    variant="h4" 
+                    className="text-white opacity-95 font-bold text-2xl md:text-3xl lg:text-4xl mb-4"
+                  >
+                    🎨 产品演示图
+                  </Typography>
+                  <Typography 
+                    variant="h6" 
+                    className="text-white opacity-80 text-lg md:text-xl lg:text-2xl"
+                  >
+                    体验可爱的文件管理
+                  </Typography>
+                </div>
+              </FloatingCard>
+            </Box>
+          </ScrollAnimation>
         </Box>
       </Container>
     </Box>
@@ -240,14 +244,14 @@ function FeaturesSection() {
       component="section" 
       className={cn(
         'py-24 relative overflow-hidden',
-        'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100',
-        'dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/30'
+        'bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50',
+        'dark:from-gray-900 dark:via-orange-900/20 dark:to-pink-900/30'
       )}
     >
       {/* 背景装饰 */}
-      <Box className="absolute inset-0 opacity-30">
-        <Box className="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-        <Box className="absolute top-40 right-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
+      <Box className="absolute inset-0 opacity-40">
+        <Box className="absolute top-20 left-10 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
+        <Box className="absolute top-40 right-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
         <Box className="absolute bottom-20 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
       </Box>
       
@@ -287,10 +291,10 @@ function FeaturesSection() {
                       className={cn(
                         'w-16 h-16 rounded-2xl flex items-center justify-center',
                         'bg-gradient-to-br shadow-lg',
-                        feature.color === 'primary' && 'from-blue-500 to-blue-600 shadow-blue-500/25',
-                        feature.color === 'secondary' && 'from-purple-500 to-purple-600 shadow-purple-500/25',
-                        feature.color === 'success' && 'from-green-500 to-green-600 shadow-green-500/25',
-                        feature.color === 'warning' && 'from-orange-500 to-orange-600 shadow-orange-500/25'
+                        feature.color === 'primary' && 'from-orange-400 to-orange-500 shadow-orange-400/30',
+                        feature.color === 'secondary' && 'from-yellow-400 to-yellow-500 shadow-yellow-400/30',
+                        feature.color === 'success' && 'from-pink-400 to-pink-500 shadow-pink-400/30',
+                        feature.color === 'warning' && 'from-orange-500 to-red-400 shadow-orange-500/30'
                       )}
                     >
                       <IconComponent className="w-8 h-8 text-white" />
@@ -300,12 +304,12 @@ function FeaturesSection() {
                   description={t(`${feature.key}.description`)}
                   className={cn(
                     'h-full group cursor-pointer',
-                    'bg-white/80 dark:bg-gray-800/80',
-                    'backdrop-blur-sm border border-white/20',
+                    'bg-white/90 dark:bg-gray-800/90',
+                    'backdrop-blur-sm border border-orange-200/30 rounded-2xl',
                     'hover:bg-white dark:hover:bg-gray-800',
                     'transition-all duration-300',
-                    'hover:shadow-xl hover:shadow-gray-200/50',
-                    'dark:hover:shadow-gray-900/50'
+                    'hover:shadow-2xl hover:shadow-orange-200/40 hover:scale-105',
+                    'dark:hover:shadow-orange-900/30'
                   )}
                 />
               </ScrollAnimation>
@@ -328,9 +332,9 @@ function FeaturesSection() {
                   key={stat.label}
                   variant="glass"
                   hoverEffect="lift"
-                  className="text-center p-6 bg-white/60 dark:bg-gray-800/60 border border-white/30"
+                  className="text-center p-6 bg-white/70 dark:bg-gray-800/70 border border-orange-200/40 rounded-2xl shadow-lg hover:shadow-orange-200/30"
                 >
-                  <IconComponent className="w-8 h-8 mx-auto mb-3 text-blue-600 dark:text-blue-400" />
+                  <IconComponent className="w-8 h-8 mx-auto mb-3 text-orange-500 dark:text-orange-400" />
                   <GradientText 
                     as="div" 
                     gradient="primary" 
@@ -373,7 +377,7 @@ function SocialSection() {
       component="section" 
       className={cn(
         'py-20 relative overflow-hidden',
-        'bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700'
+        'bg-gradient-to-r from-orange-500 via-pink-500 to-red-500'
       )}
     >
       {/* 背景装饰 */}

@@ -34,7 +34,6 @@ export function MainLayout({
         component="main"
         className={cn(
           'flex-1 flex flex-col',
-          showHeader && 'pt-16', // Account for fixed header
           contentClassName
         )}
       >

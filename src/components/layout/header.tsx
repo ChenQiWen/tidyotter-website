@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -16,6 +16,7 @@ import {
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
@@ -43,14 +44,77 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('navigation');
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  
+  // 根据主题选择logo
+  const logoSrc = theme.palette.mode === 'dark' ? '/logo/logo-dark.svg' : '/logo/logo-light.svg';
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const handleReservationClick = () => {
+  const handleReservationClick = useCallback(() => {
     router.push('/reservation');
-  };
+  }, [router]);
+
+  // 优化的滚动监听逻辑
+  useEffect(() => {
+    const SHOW_THRESHOLD = 150; // 显示导航栏的阈值
+    const HIDE_THRESHOLD = 50;  // 隐藏导航栏的阈值
+    const MIN_SCROLL_DELTA = 10; // 最小滚动距离，避免微小滚动触发
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+      
+      // 如果滚动距离太小，不处理
+      if (scrollDelta < MIN_SCROLL_DELTA) {
+        return;
+      }
+      
+      const isScrollingDown = currentScrollY > lastScrollY;
+      const isScrollingUp = currentScrollY < lastScrollY;
+      
+      // 滚动方向判断逻辑
+      if (isScrollingDown && currentScrollY > SHOW_THRESHOLD) {
+        // 向下滚动且超过显示阈值时显示导航栏
+        if (!isVisible) {
+          setIsVisible(true);
+        }
+      } else if (isScrollingUp && currentScrollY < HIDE_THRESHOLD) {
+        // 向上滚动且低于隐藏阈值时隐藏导航栏
+        if (isVisible) {
+          setIsVisible(false);
+        }
+      } else if (currentScrollY <= HIDE_THRESHOLD) {
+        // 在顶部附近时始终隐藏
+        if (isVisible) {
+          setIsVisible(false);
+        }
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    // 防抖处理，优化性能
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll);
+    };
+  }, [lastScrollY, isVisible]);
 
   useEffect(() => {
     if (isMd) {
@@ -81,13 +145,15 @@ export function Header() {
           position="fixed" 
           elevation={0}
           sx={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.95) 100%)',
             backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(99, 102, 241, 0.1)',
-            boxShadow: '0 8px 32px rgba(99, 102, 241, 0.1)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            borderBottom: '1px solid rgba(255, 140, 66, 0.15)',
+            boxShadow: '0 8px 32px rgba(255, 140, 66, 0.12)',
+            transition: 'all 0.5s ease-in-out',
+            transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+            opacity: isVisible ? 1 : 0,
             '&:hover': {
-              boxShadow: '0 12px 40px rgba(99, 102, 241, 0.15)',
+              boxShadow: '0 12px 40px rgba(255, 140, 66, 0.18)',
             },
           }}
         >
@@ -105,19 +171,21 @@ export function Header() {
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <Link href="/" className="flex items-center space-x-3">
+                <Link href="/" className="flex items-center">
                   <Box
                     sx={{
-                      width: { xs: 40, md: 48 },
-                      height: { xs: 40, md: 48 },
-                      background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)',
+                      width: { xs: 48, md: 52 },
+                      height: { xs: 48, md: 52 },
                       borderRadius: 3,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
+                      boxShadow: '0 8px 25px rgba(255, 140, 66, 0.25)',
                       position: 'relative',
                       overflow: 'hidden',
+                      background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.12) 0%, rgba(255, 217, 61, 0.12) 100%)',
+                      border: '1px solid rgba(255, 140, 66, 0.2)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       '&::before': {
                         content: '""',
                         position: 'absolute',
@@ -125,38 +193,30 @@ export function Header() {
                         left: '-100%',
                         width: '100%',
                         height: '100%',
-                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
                         transition: 'left 0.5s',
+                      },
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.2) 0%, rgba(255, 217, 61, 0.2) 100%)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 12px 35px rgba(255, 140, 66, 0.35)',
                       },
                       '&:hover::before': {
                         left: '100%',
                       },
                     }}
                   >
-                    <span 
+                    <Image
+                      src={logoSrc}
+                      alt="FileZen Logo"
+                      width={36}
+                      height={36}
+                      className="w-9 h-9 md:w-10 md:h-10 transition-all duration-300"
                       style={{
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold',
-                        color: 'white',
-                        textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                        filter: 'drop-shadow(0 2px 4px rgba(255, 140, 66, 0.3))',
                       }}
-                    >
-                      F
-                    </span>
+                    />
                   </Box>
-                  <span 
-                    style={{
-                      fontSize: '1.75rem',
-                      fontWeight: 'bold',
-                      background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      textShadow: '0 2px 4px rgba(99, 102, 241, 0.1)',
-                    }}
-                  >
-                    FileZen
-                  </span>
                 </Link>
               </motion.div>
 
@@ -182,17 +242,17 @@ export function Header() {
                           href={item.href}
                           className="relative px-4 py-2 font-semibold text-lg text-gray-700 dark:text-gray-300 hover:text-transparent transition-all duration-300 group"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%)',
+                            background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%)',
                             borderRadius: '12px',
-                            border: '1px solid rgba(99, 102, 241, 0.1)',
-                            boxShadow: '0 4px 15px rgba(99, 102, 241, 0.05)',
+                            border: '1px solid rgba(255, 140, 66, 0.12)',
+                            boxShadow: '0 4px 15px rgba(255, 140, 66, 0.08)',
                           }}
                         >
-                          <span className="relative z-10 group-hover:bg-gradient-to-r group-hover:from-indigo-500 group-hover:via-purple-500 group-hover:to-pink-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                          <span className="relative z-10 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:via-yellow-500 group-hover:to-red-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                             {t(item.key)}
                           </span>
-                          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
-                          <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-red-400/10 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                          <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-500 via-yellow-500 to-red-400 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></div>
                         </Link>
                       </motion.div>
                     ))}
@@ -215,20 +275,20 @@ export function Header() {
                       onClick={handleReservationClick}
                       sx={{
                         ml: 2,
-                        background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)',
+                        background: 'linear-gradient(135deg, #FF8C42 0%, #FFD93D 50%, #FF6B6B 100%)',
                         borderRadius: 2.5,
                         px: 3,
                         py: 1,
                         fontWeight: 600,
                         textTransform: 'none',
                         fontSize: '1rem',
-                        boxShadow: '0 6px 20px rgba(99, 102, 241, 0.25)',
+                        boxShadow: '0 6px 20px rgba(255, 140, 66, 0.3)',
                         border: 'none',
                         position: 'relative',
                         overflow: 'hidden',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, #5b5bf6 0%, #9333ea 50%, #db2777 100%)',
-                          boxShadow: '0 8px 25px rgba(99, 102, 241, 0.35)',
+                          background: 'linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E74C3C 100%)',
+                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.4)',
                           transform: 'translateY(-2px)',
                         },
                         '&::before': {
@@ -238,7 +298,7 @@ export function Header() {
                           left: '-100%',
                           width: '100%',
                           height: '100%',
-                          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
                           transition: 'left 0.5s',
                         },
                         '&:hover::before': {
@@ -262,15 +322,15 @@ export function Header() {
                       onClick={handleMobileMenuToggle}
                       sx={{
                         color: 'text.primary',
-                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%)',
-                        border: '1px solid rgba(99, 102, 241, 0.2)',
+                        background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.12) 0%, rgba(255, 217, 61, 0.12) 100%)',
+                        border: '1px solid rgba(255, 140, 66, 0.2)',
                         borderRadius: 2,
                         ml: 1,
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%)',
+                          background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.2) 0%, rgba(255, 217, 61, 0.2) 100%)',
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 8px 25px rgba(99, 102, 241, 0.15)',
+                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.2)',
                         },
                       }}
                     >
@@ -294,12 +354,12 @@ export function Header() {
                   ease: [0.4, 0, 0.2, 1],
                   staggerChildren: 0.1
                 }}
-                className="md:hidden border-t border-gradient-to-r from-indigo-200/30 to-purple-200/30 overflow-hidden"
+                className="md:hidden border-t border-gradient-to-r from-orange-200/30 to-yellow-200/30 overflow-hidden"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)',
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 240, 0.98) 100%)',
                   backdropFilter: 'blur(20px)',
-                  borderTop: '1px solid rgba(99, 102, 241, 0.15)',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)'
+                  borderTop: '1px solid rgba(255, 140, 66, 0.18)',
+                  boxShadow: '0 10px 25px rgba(255, 140, 66, 0.12)'
                 }}
               >
                 <nav className="px-6 py-6 space-y-3">
@@ -323,16 +383,16 @@ export function Header() {
                         className="block px-5 py-4 rounded-2xl font-semibold text-lg text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-500 relative overflow-hidden group"
                         onClick={() => setMobileMenuOpen(false)}
                         style={{
-                          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%)',
-                          border: '1px solid rgba(99, 102, 241, 0.12)',
-                          boxShadow: '0 4px 15px rgba(99, 102, 241, 0.08)',
+                          background: 'linear-gradient(135deg, rgba(255, 140, 66, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%)',
+                          border: '1px solid rgba(255, 140, 66, 0.15)',
+                          boxShadow: '0 4px 15px rgba(255, 140, 66, 0.1)',
                         }}
                       >
                         <span className="relative z-10 flex items-center space-x-3">
-                          <span className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-125"></span>
+                          <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-125"></span>
                           <span>{t(item.key)}</span>
                         </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl transform scale-x-0 group-hover:scale-x-100 origin-left"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-yellow-500 to-red-400 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl transform scale-x-0 group-hover:scale-x-100 origin-left"></div>
                       </Link>
                     </motion.div>
                   ))}
@@ -345,9 +405,9 @@ export function Header() {
                       damping: 25,
                       delay: 0.3 + navigationItems.length * 0.08
                     }}
-                    className="pt-6 mt-4 border-t border-gradient-to-r from-indigo-100 to-purple-100"
+                    className="pt-6 mt-4 border-t border-gradient-to-r from-orange-100 to-yellow-100"
                     style={{
-                      borderTop: '1px solid rgba(99, 102, 241, 0.15)'
+                      borderTop: '1px solid rgba(255, 140, 66, 0.18)'
                     }}
                   >
                     <motion.div
@@ -361,19 +421,19 @@ export function Header() {
                         onClick={handleReservationClick}
                         sx={{
                           width: '100%',
-                          background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)',
+                          background: 'linear-gradient(135deg, #FF8C42 0%, #FFD93D 50%, #FF6B6B 100%)',
                           borderRadius: 3,
                           py: 1.5,
                           fontWeight: 600,
                           textTransform: 'none',
                           fontSize: '1.125rem',
-                          boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
+                          boxShadow: '0 8px 25px rgba(255, 140, 66, 0.35)',
                           border: 'none',
                           position: 'relative',
                           overflow: 'hidden',
                           '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bf6 0%, #9333ea 50%, #db2777 100%)',
-                            boxShadow: '0 12px 35px rgba(99, 102, 241, 0.4)',
+                            background: 'linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E74C3C 100%)',
+                            boxShadow: '0 12px 35px rgba(255, 140, 66, 0.45)',
                             transform: 'translateY(-2px)',
                           },
                           '&::before': {
@@ -383,7 +443,7 @@ export function Header() {
                             left: '-100%',
                             width: '100%',
                             height: '100%',
-                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
                             transition: 'left 0.5s',
                           },
                           '&:hover::before': {

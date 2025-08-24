@@ -11,43 +11,87 @@
   --border-radius-lg: 16px;
   --border-radius-xl: 24px;
   
-  /* 现代化颜色系统 */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
+  /* 可爱卡通暖色调系统 - 基于logo设计 */
+  /* 主品牌色 - 基于logo色彩 */
+  --primary-orange: #FF8C42;
+  --primary-yellow: #FFD93D;
+  --primary-warm: #FF6B35;
   
-  --color-secondary-50: #faf5ff;
-  --color-secondary-100: #f3e8ff;
-  --color-secondary-500: #8b5cf6;
-  --color-secondary-600: #7c3aed;
-  --color-secondary-700: #6d28d9;
+  /* 主色调色阶 */
+  --color-primary-50: #FFF8F0;
+  --color-primary-100: #FFF0E6;
+  --color-primary-200: #FFE4CC;
+  --color-primary-300: #FFCCA3;
+  --color-primary-400: #FF8C42;
+  --color-primary-500: #FF6B35;
+  --color-primary-600: #E55A2B;
+  --color-primary-700: #CC4922;
   
-  --color-accent-50: #fdf2f8;
-  --color-accent-100: #fce7f3;
-  --color-accent-500: #ec4899;
-  --color-accent-600: #db2777;
-  --color-accent-700: #be185d;
+  /* 次要色 - 温暖黄色系 */
+  --color-secondary-50: #FFFBF0;
+  --color-secondary-100: #FFF7E6;
+  --color-secondary-200: #FFEECC;
+  --color-secondary-300: #FFE4A3;
+  --color-secondary-400: #FFD93D;
+  --color-secondary-500: #FFC107;
+  --color-secondary-600: #FFB300;
+  --color-secondary-700: #FF8F00;
   
-  /* 渐变背景 */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  --gradient-cool: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  /* 强调色 - 温暖粉橙 */
+  --color-accent-50: #FFF5F2;
+  --color-accent-100: #FFEBE6;
+  --color-accent-200: #FFD6CC;
+  --color-accent-300: #FFC2B3;
+  --color-accent-400: #FF9980;
+  --color-accent-500: #FF7A59;
+  --color-accent-600: #E56B4A;
+  --color-accent-700: #CC5C3B;
   
-  /* 现代化阴影系统 */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-glow-primary: 0 0 20px rgba(59, 130, 246, 0.3);
-  --shadow-glow-secondary: 0 0 20px rgba(139, 92, 246, 0.3);
-  --shadow-glow-accent: 0 0 20px rgba(236, 72, 153, 0.3);
+  /* 可爱卡通渐变背景 */
+  --gradient-warm: linear-gradient(135deg, #FF8C42 0%, #FFD93D 100%);
+  --gradient-sunset: linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFD93D 100%);
+  --gradient-primary: linear-gradient(135deg, #FF8C42 0%, #FFD93D 100%);
+  --gradient-secondary: linear-gradient(135deg, #FFD93D 0%, #FFF8F0 100%);
+  --gradient-accent: linear-gradient(135deg, #FF7A59 0%, #FF9980 100%);
+  --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #FF8C42 30%, #FFD93D 70%, #FFF8F0 100%);
+  --gradient-soft: linear-gradient(135deg, #FFF8F0 0%, #FFE4CC 100%);
+  
+  /* 中性色 - 温暖调性 */
+  --neutral-50: #FFF8F0;         /* 温暖白 */
+  --neutral-100: #FFF0E6;        /* 浅暖灰 */
+  --neutral-200: #FFE4CC;        /* 暖米色 */
+  --neutral-300: #FFCCA3;        /* 浅橙灰 */
+  --neutral-400: #CC9966;        /* 中橙灰 */
+  --neutral-500: #996633;        /* 深橙灰 */
+  --neutral-600: #664422;        /* 深棕 */
+  --neutral-700: #442211;        /* 深棕色 */
+  --neutral-800: #2A1508;        /* 极深棕 */
+  --neutral-900: #1A0D04;        /* 黑棕 */
+  
+  /* 功能色彩 - 保持温暖感 */
+  --success: #4CAF50;            /* 成功绿（稍微温暖化） */
+  --warning: #FF9800;            /* 警告橙 */
+  --error: #F44336;              /* 错误红（温暖化） */
+  --info: #2196F3;               /* 信息蓝（保持清爽） */
+  
+  /* 暗色主题 - 保持温暖感 */
+  --dark-bg-primary: #2A1810;    /* 深暖棕背景 */
+  --dark-bg-secondary: #3D2418;  /* 次级暖棕背景 */
+  --dark-text-primary: #FFF8F0;  /* 温暖白文字 */
+  --dark-text-secondary: #FFCCA3; /* 暖橙文字 */
+  
+  /* 温暖阴影系统 */
+  --shadow-xs: 0 1px 2px 0 rgba(255, 140, 66, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(255, 140, 66, 0.1), 0 1px 2px 0 rgba(255, 140, 66, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(255, 140, 66, 0.1), 0 2px 4px -1px rgba(255, 140, 66, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(255, 140, 66, 0.1), 0 4px 6px -2px rgba(255, 140, 66, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(255, 140, 66, 0.1), 0 10px 10px -5px rgba(255, 140, 66, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(255, 140, 66, 0.25);
+  --shadow-glow-primary: 0 0 20px rgba(255, 140, 66, 0.3);
+  --shadow-glow-secondary: 0 0 20px rgba(255, 217, 61, 0.3);
+  --shadow-glow-accent: 0 0 20px rgba(255, 122, 89, 0.3);
+  --shadow-warm: 0 4px 12px rgba(255, 140, 66, 0.3);
+  --shadow-soft-warm: 0 2px 8px rgba(255, 140, 66, 0.15);
   
   /* 过渡动画 */
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -64,17 +108,23 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   
-  /* 字体系统 - 优化可读性 */
-  --font-size-xs: 0.875rem;
-  --font-size-sm: 1rem;
-  --font-size-base: 1.125rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.375rem;
-  --font-size-2xl: 1.625rem;
-  --font-size-3xl: 2rem;
-  --font-size-4xl: 2.5rem;
-  --font-size-5xl: 3.25rem;
-  --font-size-6xl: 4rem;
+  /* 可爱卡通字体系统 */
+  /* 字体族 - 圆润友好 */
+  --font-primary: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Poppins', 'Inter', 'PingFang SC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  
+  /* 字体大小 - 提升可读性 */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1.125rem; /* 18px - 提升基础可读性 */
+  --font-size-lg: 1.25rem;    /* 20px */
+  --font-size-xl: 1.5rem;     /* 24px */
+  --font-size-2xl: 1.875rem;  /* 30px */
+  --font-size-3xl: 2.25rem;   /* 36px */
+  --font-size-4xl: 3rem;      /* 48px */
+  --font-size-5xl: 3.75rem;   /* 60px */
+  --font-size-6xl: 4.5rem;    /* 72px */
   
   /* Z-index 层级 */
   --z-dropdown: 1000;
@@ -99,8 +149,8 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(16px, 2.5vw, 18px);
+  font-family: var(--font-primary);
+  font-size: clamp(18px, 2.5vw, 20px);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -360,85 +410,111 @@ a {
   box-shadow: var(--shadow-glow-primary);
 }
 
-/* 组件样式 */
+/* 可爱卡通组件样式 */
 .btn-primary {
-  background-color: rgb(37 99 235);
+  background: var(--gradient-warm);
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-family: var(--font-primary);
+  box-shadow: var(--shadow-warm);
   transition: all var(--transition-normal);
+  border: none;
+  cursor: pointer;
 }
 
 .btn-primary:hover {
-  background-color: rgb(29 78 216);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 140, 66, 0.4);
 }
 
 .btn-primary:focus {
-  outline: 2px solid rgb(59 130 246);
+  outline: 2px solid var(--primary-orange);
   outline-offset: 2px;
 }
 
 .btn-secondary {
-  background-color: rgb(229 231 235);
-  color: rgb(17 24 39);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  background: var(--neutral-100);
+  color: var(--primary-orange);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-family: var(--font-primary);
+  border: 2px solid var(--primary-orange);
   transition: all var(--transition-normal);
+  cursor: pointer;
 }
 
 .btn-secondary:hover {
-  background-color: rgb(209 213 219);
+  background: var(--primary-orange);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-warm);
 }
 
 .btn-secondary:focus {
-  outline: 2px solid rgb(107 114 128);
+  outline: 2px solid var(--primary-orange);
   outline-offset: 2px;
 }
 
 .dark .btn-secondary {
-  background-color: rgb(55 65 81);
-  color: rgb(243 244 246);
+  background: var(--dark-bg-secondary);
+  color: var(--dark-text-secondary);
+  border-color: var(--primary-orange);
 }
 
 .dark .btn-secondary:hover {
-  background-color: rgb(75 85 99);
+  background: var(--primary-orange);
+  color: white;
 }
 
 .card {
-  background-color: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
+  background: var(--neutral-50);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-soft-warm);
+  border: 1px solid var(--neutral-200);
   transition: all var(--transition-normal);
 }
 
 .card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(255, 140, 66, 0.15);
 }
 
 .dark .card {
-  background-color: rgb(31 41 55);
-  border: 1px solid rgb(55 65 81);
+  background: var(--dark-bg-secondary);
+  border: 1px solid var(--neutral-600);
+  color: var(--dark-text-primary);
 }
 
 .input-field {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgb(209 213 219);
-  border-radius: 0.5rem;
+  padding: 12px 16px;
+  border: 2px solid var(--neutral-300);
+  border-radius: 12px;
+  font-size: var(--font-size-base);
+  font-family: var(--font-primary);
+  background: var(--neutral-50);
   transition: all var(--transition-normal);
 }
 
 .input-field:focus {
-  outline: 2px solid rgb(59 130 246);
-  border-color: transparent;
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.1);
+  outline: none;
 }
 
 .dark .input-field {
-  background-color: rgb(31 41 55);
-  border-color: rgb(75 85 99);
-  color: white;
+  background: var(--dark-bg-secondary);
+  border-color: var(--neutral-600);
+  color: var(--dark-text-primary);
+}
+
+.dark .input-field:focus {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.2);
 }
 
 /* 响应式断点 */

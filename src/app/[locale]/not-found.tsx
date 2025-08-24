@@ -1,3 +1,5 @@
+'use client';
+
 import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Container, Typography, Box, Button } from '@mui/material';
