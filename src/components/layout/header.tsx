@@ -235,7 +235,7 @@ export function Header() {
               {/* CTA Button */}
               {isMd && (
                 <Button
-                  variant="primary"
+                  variant="contained"
                   size="small"
                   onClick={handleReservationClick}
                   className="ml-4"
@@ -272,7 +272,7 @@ export function Header() {
                 ))}
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                   <Button
-                    variant="primary"
+                    variant="contained"
                     size="medium"
                     onClick={handleReservationClick}
                     className="w-full"

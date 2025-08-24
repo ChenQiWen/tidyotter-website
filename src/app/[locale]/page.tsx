@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Container, Typography, Box, Card, CardContent } from '@mui/material';
 import { Button } from '@/components';
 import { 
@@ -12,7 +12,8 @@ import {
   Download,
   PlayArrow,
   GitHub,
-  Twitter
+  Twitter,
+  CalendarToday
 } from '@mui/icons-material';
 import { MainLayout, ReservationForm } from '@/components';
 import { cn } from '@/utils';
@@ -45,7 +46,7 @@ const features = [
 ];
 
 // Hero 区域组件
-function HeroSection() {
+function HeroSection({ onReservationClick }: { onReservationClick: () => void }) {
   const t = useTranslations('hero');
   
   const handleDownloadClick = useCallback(() => {
@@ -59,6 +60,11 @@ function HeroSection() {
     // TODO: 演示视频逻辑
     console.log('Watch demo clicked');
   }, []);
+  
+  const handleReservationClick = useCallback(() => {
+    event('reservation_clicked', { source: 'hero' });
+    onReservationClick();
+  }, [onReservationClick]);
   
   return (
     <Box
@@ -109,6 +115,30 @@ function HeroSection() {
               </Typography>
               
               <Box className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<CalendarToday />}
+                  onClick={handleReservationClick}
+                  className={cn(
+                    'px-10 py-4 text-xl font-bold',
+                    'bg-gradient-to-r from-orange-500 via-red-500 to-pink-500',
+                    'hover:from-orange-600 hover:via-red-600 hover:to-pink-600',
+                    'shadow-2xl hover:shadow-orange-500/25',
+                    'transform hover:scale-110 transition-all duration-300',
+                    'border-2 border-white/20',
+                    'relative overflow-hidden',
+                    'before:absolute before:inset-0',
+                    'before:bg-gradient-to-r before:from-white/0 before:via-white/20 before:to-white/0',
+                    'before:translate-x-[-100%] hover:before:translate-x-[100%]',
+                    'before:transition-transform before:duration-700',
+                    'animate-bounce hover:animate-none',
+                    'ring-4 ring-orange-200/50 hover:ring-orange-300/70'
+                  )}
+                >
+                  🎯 预约体验
+                </Button>
+                
                 <Button
                   variant="contained"
                   size="large"
@@ -269,40 +299,7 @@ function FeaturesSection() {
   );
 }
 
-// 预约区域组件
-function ReservationSection() {
-  const t = useTranslations('reservation');
-  
-  return (
-    <Box
-      component="section"
-      className={cn(
-        'py-20',
-        'bg-gradient-to-r from-primary-600 to-secondary-600',
-        'text-white'
-      )}
-    >
-      <Container maxWidth="md">
-        <Box className="text-center mb-12">
-          <Typography
-            variant="h2"
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            {t('title')}
-          </Typography>
-          <Typography
-            variant="body1"
-            className="text-xl opacity-90"
-          >
-            {t('subtitle')}
-          </Typography>
-        </Box>
-        
-        <ReservationForm variant="inline" />
-      </Container>
-    </Box>
-  );
-}
+
 
 // 社交链接区域组件
 function SocialSection() {
@@ -366,12 +363,28 @@ function SocialSection() {
 
 // 主页组件
 export default function HomePage() {
+  const [isReservationOpen, setIsReservationOpen] = useState(false);
+  
+  const handleReservationOpen = useCallback(() => {
+    setIsReservationOpen(true);
+  }, []);
+  
+  const handleReservationClose = useCallback(() => {
+    setIsReservationOpen(false);
+  }, []);
+  
   return (
     <MainLayout>
-      <HeroSection />
+      <HeroSection onReservationClick={handleReservationOpen} />
       <FeaturesSection />
-      <ReservationSection />
       <SocialSection />
+      
+      {/* 预约体验弹窗 */}
+      <ReservationForm 
+        variant="modal" 
+        open={isReservationOpen}
+        onClose={handleReservationClose}
+      />
     </MainLayout>
   );
 }

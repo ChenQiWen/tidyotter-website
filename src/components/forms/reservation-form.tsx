@@ -10,6 +10,8 @@ import {
   Typography,
   Alert,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Email, Person, Phone, Message } from '@mui/icons-material';
 import { Button, Input, Card } from '@/components/ui';
@@ -147,6 +149,10 @@ export function ReservationForm({
     setFieldTouched(field, true);
   };
 
+  // Move hooks to top level to comply with Rules of Hooks
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   const formContent = (
     <form onSubmit={handleSubmit(submitReservation)} className="space-y-6">
       {/* Status Alert */}
@@ -252,12 +258,22 @@ export function ReservationForm({
         onClose={onClose}
         maxWidth="sm"
         fullWidth
+        fullScreen={isMobile}
         PaperProps={{
-          className: 'rounded-2xl',
+          className: isMobile ? 'rounded-none' : 'rounded-2xl',
+          sx: {
+            margin: isMobile ? 0 : 2,
+            maxHeight: isMobile ? '100vh' : '90vh',
+          },
+        }}
+        sx={{
+          '& .MuiDialog-container': {
+            alignItems: isMobile ? 'flex-start' : 'center',
+          },
         }}
       >
         <DialogTitle className="text-center">
-          <Typography variant="h5" className="font-bold text-gray-900 dark:text-white">
+          <Typography component="div" className="font-bold text-gray-900 dark:text-white text-xl">
             {t('title')}
           </Typography>
           <Typography variant="body2" className="text-gray-600 dark:text-gray-400 mt-2">
@@ -275,7 +291,7 @@ export function ReservationForm({
   return (
     <Card className={className} padding="large">
       <div className="text-center mb-6">
-        <Typography variant="h5" className="font-bold text-gray-900 dark:text-white mb-2">
+        <Typography component="h2" className="font-bold text-gray-900 dark:text-white mb-2 text-xl">
           {t('title')}
         </Typography>
         <Typography variant="body2" className="text-gray-600 dark:text-gray-400">
