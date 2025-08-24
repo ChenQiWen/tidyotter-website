@@ -17,7 +17,6 @@ import {
   Language as LanguageIcon,
 } from '@mui/icons-material';
 import { cn } from '@/utils';
-import { event } from '@/lib/analytics';
 import type { Locale } from '@/types';
 
 export function Footer() {
@@ -96,18 +95,11 @@ export function Footer() {
   ];
 
   const handleLinkClick = (section: string, link: string) => {
-    event('footer_link_click', {
-      event_category: 'navigation',
-      section: section,
-      link: link,
-    });
+    // Link click handled
   };
 
   const handleSocialClick = (platform: string) => {
-    event('social_link_click', {
-      event_category: 'social',
-      platform: platform.toLowerCase(),
-    });
+    // Social link click handled
   };
 
   return (

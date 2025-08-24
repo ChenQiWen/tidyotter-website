@@ -110,8 +110,9 @@
   
   /* 可爱卡通字体系统 */
   /* 字体族 - 圆润友好 */
-  --font-primary: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  --font-heading: 'Poppins', 'Inter', 'PingFang SC', sans-serif;
+  --font-primary: 'Nunito', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Comfortaa', 'Nunito', 'PingFang SC', sans-serif;
+  --font-cute: 'Quicksand', 'Nunito', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   
   /* 字体大小 - 提升可读性 */
@@ -135,6 +136,30 @@
   --z-popover: 1060;
   --z-tooltip: 1070;
   --z-toast: 1080;
+  
+  /* Logo 主题响应式颜色变量 */
+  --logo-primary: #FF8C42;      /* 主橙色 */
+  --logo-secondary: #FFD93D;    /* 主黄色 */
+  --logo-accent: #FF6B35;       /* 强调橙色 */
+  --logo-shadow: #CC4922;       /* 阴影色 */
+  --logo-highlight: #FFF8F0;    /* 高光色 */
+  --logo-border: #E55A2B;       /* 边框色 */
+  --logo-text-start: #8B4513;   /* 文字渐变起始色 */
+  --logo-text-end: #A0522D;     /* 文字渐变结束色 */
+  --logo-stroke: #8B4513;       /* 文字描边色 */
+}
+
+/* 暗色主题下的logo颜色变量 */
+.dark {
+  --logo-primary: #FFB366;      /* 亮橙色 - 在暗背景下更明亮 */
+  --logo-secondary: #FFE066;    /* 亮黄色 - 在暗背景下更明亮 */
+  --logo-accent: #FF8C5A;       /* 亮强调橙色 */
+  --logo-shadow: #4A2C1A;       /* 深暗阴影色 */
+  --logo-highlight: #FFFFFF;    /* 纯白高光 */
+  --logo-border: #FF9966;       /* 亮边框色 */
+  --logo-text-start: #D4A574;   /* 亮文字渐变起始色 */
+  --logo-text-end: #E6B885;     /* 亮文字渐变结束色 */
+  --logo-stroke: #D4A574;       /* 亮文字描边色 */
 }
 
 /* 基础样式重置 */
@@ -188,6 +213,19 @@ body {
 
 .text-responsive-5xl {
   font-size: clamp(2.5rem, 7vw, 4rem);
+}
+
+.dark {
+  /* Logo 暗色主题颜色变量 */
+  --logo-primary: #E6B885;      /* 亮橙色 */
+  --logo-secondary: #D4A574;    /* 亮黄色 */
+  --logo-accent: #FF8C5A;       /* 更亮的强调橙色 */
+  --logo-shadow: #8B4513;       /* 深棕阴影 */
+  --logo-highlight: #FFF8F0;    /* 保持高光色 */
+  --logo-border: #CC7A4A;       /* 暗色边框 */
+  --logo-text-start: #E6B885;   /* 暗色文字渐变起始色 */
+  --logo-text-end: #D4A574;     /* 暗色文字渐变结束色 */
+  --logo-stroke: #8B4513;       /* 暗色文字描边色 */
 }
 
 .dark body {

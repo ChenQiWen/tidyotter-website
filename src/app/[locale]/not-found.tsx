@@ -3,7 +3,7 @@
 import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { Container, Typography, Box, Button } from '@mui/material';
-import { Home, ArrowBack, Search } from '@mui/icons-material';
+import { Home, ArrowBack, Search } from '@/components/icons';
 import Link from 'next/link';
 import { MainLayout } from '@/components';
 import { cn } from '@/utils';

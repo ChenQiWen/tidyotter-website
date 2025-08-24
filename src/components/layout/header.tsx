@@ -9,34 +9,14 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
-  useScrollTrigger,
-  Slide,
   Box,
 } from '@mui/material';
-import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, Close as CloseIcon } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-
-interface Props {
-  window?: () => Window;
-  children: React.ReactElement;
-}
-
-function HideOnScroll(props: Props) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-  });
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
 
 export function Header() {
   const theme = useTheme();
@@ -44,11 +24,9 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('navigation');
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   
-  // 根据主题选择logo
-  const logoSrc = theme.palette.mode === 'dark' ? '/logo/logo-dark.svg' : '/logo/logo-light.svg';
+  // 使用统一的主题响应式logo
+  const logoSrc = '/logo/logo.png';
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -57,64 +35,6 @@ export function Header() {
   const handleReservationClick = useCallback(() => {
     router.push('/reservation');
   }, [router]);
-
-  // 优化的滚动监听逻辑
-  useEffect(() => {
-    const SHOW_THRESHOLD = 150; // 显示导航栏的阈值
-    const HIDE_THRESHOLD = 50;  // 隐藏导航栏的阈值
-    const MIN_SCROLL_DELTA = 10; // 最小滚动距离，避免微小滚动触发
-    
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const scrollDelta = Math.abs(currentScrollY - lastScrollY);
-      
-      // 如果滚动距离太小，不处理
-      if (scrollDelta < MIN_SCROLL_DELTA) {
-        return;
-      }
-      
-      const isScrollingDown = currentScrollY > lastScrollY;
-      const isScrollingUp = currentScrollY < lastScrollY;
-      
-      // 滚动方向判断逻辑
-      if (isScrollingDown && currentScrollY > SHOW_THRESHOLD) {
-        // 向下滚动且超过显示阈值时显示导航栏
-        if (!isVisible) {
-          setIsVisible(true);
-        }
-      } else if (isScrollingUp && currentScrollY < HIDE_THRESHOLD) {
-        // 向上滚动且低于隐藏阈值时隐藏导航栏
-        if (isVisible) {
-          setIsVisible(false);
-        }
-      } else if (currentScrollY <= HIDE_THRESHOLD) {
-        // 在顶部附近时始终隐藏
-        if (isVisible) {
-          setIsVisible(false);
-        }
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
-
-    // 防抖处理，优化性能
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
-    
-    return () => {
-      window.removeEventListener('scroll', throttledHandleScroll);
-    };
-  }, [lastScrollY, isVisible]);
 
   useEffect(() => {
     if (isMd) {
@@ -140,7 +60,6 @@ export function Header() {
         duration: 0.8
       }}
     >
-      <HideOnScroll>
         <AppBar 
           position="fixed" 
           elevation={0}
@@ -149,9 +68,7 @@ export function Header() {
             backdropFilter: 'blur(20px)',
             borderBottom: '1px solid rgba(255, 140, 66, 0.15)',
             boxShadow: '0 8px 32px rgba(255, 140, 66, 0.12)',
-            transition: 'all 0.5s ease-in-out',
-            transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-            opacity: isVisible ? 1 : 0,
+            transition: 'all 0.3s ease-in-out',
             '&:hover': {
               boxShadow: '0 12px 40px rgba(255, 140, 66, 0.18)',
             },
@@ -460,7 +377,6 @@ export function Header() {
             )}
           </AnimatePresence>
         </AppBar>
-      </HideOnScroll>
     </motion.div>
   );
 }

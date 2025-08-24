@@ -3,68 +3,112 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 import { zhCN, enUS } from '@mui/material/locale';
 
-// 定义自定义颜色
+// 定义自定义颜色 - 可爱卡通风格暖色调
 const colors = {
   primary: {
-    main: '#1976d2',
-    light: '#42a5f5',
-    dark: '#1565c0',
+    main: '#FF8C42', // 主橙色
+    light: '#FFB366',
+    dark: '#E6732A',
   },
   secondary: {
-    main: '#dc004e',
-    light: '#ff5983',
-    dark: '#9a0036',
+    main: '#FFD93D', // 主黄色
+    light: '#FFE066',
+    dark: '#E6C42A',
   },
   success: {
-    main: '#2e7d32',
-    light: '#4caf50',
-    dark: '#1b5e20',
+    main: '#4ECDC4', // 薄荷绿
+    light: '#7EDDD6',
+    dark: '#3BB5AD',
   },
   warning: {
-    main: '#ed6c02',
-    light: '#ff9800',
-    dark: '#e65100',
+    main: '#FFB347', // 温暖橙
+    light: '#FFC266',
+    dark: '#E69A2E',
   },
   error: {
-    main: '#d32f2f',
-    light: '#ef5350',
-    dark: '#c62828',
+    main: '#FF6B6B', // 温和红
+    light: '#FF8A8A',
+    dark: '#E65252',
+  },
+  info: {
+    main: '#74B9FF', // 天空蓝
+    light: '#93C7FF',
+    dark: '#5BA3E6',
   },
 };
 
-// 基础主题配置
+// 基础主题配置 - 圆润可爱字体系统
 const baseTheme: ThemeOptions = {
   typography: {
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
+      'Nunito',
+      'PingFang SC',
+      'Hiragino Sans GB',
+      'Microsoft YaHei',
+      'WenQuanYi Micro Hei',
       'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
     ].join(','),
     h1: {
       fontSize: '2.5rem',
       fontWeight: 700,
       lineHeight: 1.2,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
     },
     h2: {
       fontSize: '2rem',
       fontWeight: 600,
       lineHeight: 1.3,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
     },
     h3: {
       fontSize: '1.5rem',
       fontWeight: 600,
       lineHeight: 1.4,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    h4: {
+      fontSize: '1.25rem',
+      fontWeight: 600,
+      lineHeight: 1.4,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    h5: {
+      fontSize: '1.125rem',
+      fontWeight: 600,
+      lineHeight: 1.4,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    h6: {
+      fontSize: '1rem',
+      fontWeight: 600,
+      lineHeight: 1.4,
+      fontFamily: ['Comfortaa', 'Nunito', 'PingFang SC', 'sans-serif'].join(','),
     },
     body1: {
       fontSize: '1rem',
       lineHeight: 1.6,
+      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    body2: {
+      fontSize: '0.875rem',
+      lineHeight: 1.6,
+      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    button: {
+      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      fontWeight: 600,
+      textTransform: 'none',
+    },
+    caption: {
+      fontSize: '0.75rem',
+      lineHeight: 1.4,
+      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+    },
+    overline: {
+      fontSize: '0.75rem',
+      lineHeight: 1.4,
+      fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+      textTransform: 'uppercase',
     },
   },
   shape: {
@@ -75,10 +119,15 @@ const baseTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 8,
-          padding: '8px 24px',
+          borderRadius: 12,
+          padding: '10px 24px',
           fontSize: '1rem',
-          fontWeight: 500,
+          fontWeight: 600,
+          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          },
         },
       },
     },
@@ -86,7 +135,10 @@ const baseTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+          '&:hover': {
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+          },
         },
       },
     },
@@ -94,28 +146,67 @@ const baseTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 8,
+            borderRadius: 12,
+            fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
           },
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          fontFamily: ['Nunito', 'PingFang SC', 'sans-serif'].join(','),
+          fontWeight: 500,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: 16,
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
         },
       },
     },
   },
 };
 
-// 浅色主题
+// 浅色主题 - 可爱卡通风格
 export const lightTheme = (locale: 'zh' | 'en' = 'zh') => createTheme({
   ...baseTheme,
   palette: {
     mode: 'light',
     ...colors,
     background: {
-      default: '#fafafa',
-      paper: '#ffffff',
+      default: '#FFF8F0', // 温暖的奶白色背景
+      paper: '#FFFFFF',
     },
     text: {
-      primary: '#1a1a1a',
-      secondary: '#666666',
+      primary: '#2D3748', // 温和的深灰色
+      secondary: '#718096', // 中性灰色
     },
+    divider: '#E2E8F0',
   },
 }, locale === 'zh' ? zhCN : enUS);
 

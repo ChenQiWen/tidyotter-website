@@ -93,10 +93,11 @@ export default {
         'gradient-playful': 'linear-gradient(135deg, #FFFBF0 0%, #FFD93D 50%, #FF6B9D 100%)',
       },
       fontFamily: {
-        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
-        primary: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['var(--font-primary)'],
+        primary: ['var(--font-primary)'],
+        heading: ['var(--font-heading)'],
+        cute: ['var(--font-cute)'],
+        mono: ['var(--font-mono)'],
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],

@@ -112,7 +112,6 @@ async function checkExternalServices(): Promise<ServiceStatus> {
   try {
     // 检查关键的外部服务配置
     const checks = {
-      googleAnalytics: !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
       statsig: !!process.env.NEXT_PUBLIC_STATSIG_CLIENT_KEY,
       vercelAnalytics: !!process.env.NEXT_PUBLIC_VERCEL_ANALYTICS_ID,
     };

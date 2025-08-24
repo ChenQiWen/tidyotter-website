@@ -2,11 +2,10 @@
 
 import { useEffect } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
-import { ErrorOutline, Refresh, Home, BugReport } from '@mui/icons-material';
+import { ErrorOutline, Refresh, Home, BugReport } from '@/components/icons';
 import Link from 'next/link';
 import { MainLayout } from '@/components';
 import { cn } from '@/utils';
-import { event } from '@/lib/analytics';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -15,41 +14,17 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   useEffect(() => {
-    // 记录错误到分析系统
-    console.error('Application error:', error);
-    
-    // 发送错误事件到分析
-    event('error_occurred', {
-      error_message: error.message,
-      error_digest: error.digest,
-      error_stack: error.stack?.substring(0, 500), // 限制长度
-      page_url: window.location.href,
-    });
-    
-    // 如果有 Sentry 等错误监控服务，在这里发送
-    // Sentry.captureException(error);
+    // Error logged to console for debugging
+    console.error('Error occurred:', error);
   }, [error]);
   
   const handleRetry = () => {
-    event('error_retry_clicked');
     reset();
   };
   
   const handleReportBug = () => {
-    event('error_report_clicked');
-    
-    // 构建错误报告邮件
-    const subject = encodeURIComponent('FileZen 错误报告');
-    const body = encodeURIComponent(
-      `错误信息：${error.message}\n\n` +
-      `错误摘要：${error.digest || 'N/A'}\n\n` +
-      `页面地址：${window.location.href}\n\n` +
-      `用户代理：${navigator.userAgent}\n\n` +
-      `时间：${new Date().toISOString()}\n\n` +
-      `请描述您在遇到此错误前的操作步骤：\n\n`
-    );
-    
-    window.open(`mailto:support@filezen.app?subject=${subject}&body=${body}`);
+    // Open bug report form or email
+    window.open('mailto:support@filezen.com?subject=Bug Report&body=' + encodeURIComponent(`Error: ${error.message}`));
   };
   
   // 判断是否为开发环境

@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { routing } from '@/i18n/routing';
-import { GTM_ID, gtmScript } from '@/lib/analytics';
+
 import '../globals.css';
 
 interface LocaleLayoutProps {
@@ -63,14 +63,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager */}
-        {GTM_ID && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: gtmScript,
-            }}
-          />
-        )}
+
         {/* Favicon 配置 */}
         <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
@@ -84,21 +77,18 @@ export default async function LocaleLayout({
         
         {/* 预连接到外部资源 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Google Fonts - 圆润可爱字体 */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Comfortaa:wght@300..700&family=Quicksand:wght@300..700&display=swap"
+          rel="stylesheet"
+        />
+        
+
       </head>
       <body className="antialiased">
-        {/* Google Tag Manager (noscript) */}
-        {GTM_ID && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
-            />
-          </noscript>
-        )}
+
         
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>

@@ -134,8 +134,7 @@ export interface EnvironmentConfig {
   NEXT_PUBLIC_APP_URL: string;
   NEXT_PUBLIC_APP_NAME: string;
   NEXT_PUBLIC_APP_DESCRIPTION: string;
-  NEXT_PUBLIC_GTM_ID?: string;
-  NEXT_PUBLIC_GA_MEASUREMENT_ID?: string;
+
   NEXT_PUBLIC_STATSIG_CLIENT_KEY?: string;
   VERCEL_URL?: string;
   VERCEL_ENV?: 'development' | 'preview' | 'production';

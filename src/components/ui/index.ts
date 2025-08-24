@@ -1,9 +1,14 @@
-// UI Components Export
-export { Button } from './button';
-export type { ButtonProps } from './button';
+// UI Components Export - Material UI Components
+export { Button } from '@mui/material';
+export type { ButtonProps } from '@mui/material';
 
-export { Input } from './input';
-export type { InputProps } from './input';
+export { TextField as Input } from '@mui/material';
+export type { TextFieldProps as InputProps } from '@mui/material';
 
-export { Card, CardHeader, CardContent, CardFooter } from './card';
-export type { CardProps, CardHeaderProps, CardContentProps, CardFooterProps } from './card';
+export { Card, CardHeader, CardContent, CardActions as CardFooter } from '@mui/material';
+export type { 
+  CardProps, 
+  CardHeaderProps, 
+  CardContentProps, 
+  CardActionsProps as CardFooterProps 
+} from '@mui/material';

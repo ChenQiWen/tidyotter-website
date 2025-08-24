@@ -7,17 +7,19 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
   Alert,
   CircularProgress,
-  useMediaQuery,
+  Typography,
   useTheme,
+  useMediaQuery,
+  Button,
+  InputAdornment,
 } from '@mui/material';
-import { Email, Person, Phone, Message } from '@mui/icons-material';
-import { Button, Input, Card } from '@/components/ui';
+import { Email, Person, Phone, Message } from '@/components/icons';
+import { Input, Card } from '@/components/ui';
 import { useForm } from '@/hooks';
 import { isValidEmail, isValidPhone } from '@/utils';
-import { trackingEvents } from '@/lib/analytics';
+
 import type { ReservationFormData, ApiResponse } from '@/types';
 
 export interface ReservationFormProps {
@@ -114,8 +116,7 @@ export function ReservationForm({
         message: t('success_message'),
       });
 
-      // Track successful submission
-      trackingEvents.submitReservation(true);
+
 
       // Call success callback
       onSuccess?.(formData);
@@ -136,8 +137,7 @@ export function ReservationForm({
         message: errorMessage,
       });
 
-      // Track failed submission
-      trackingEvents.submitReservation(false);
+
     }
   };
 
@@ -175,7 +175,13 @@ export function ReservationForm({
         onBlur={handleFieldBlur('email')}
         error={touched.email && Boolean(errors.email)}
         helperText={touched.email && errors.email}
-        startIcon={<Email />}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Email />
+            </InputAdornment>
+          ),
+        }}
         required
         fullWidth
       />
@@ -189,7 +195,13 @@ export function ReservationForm({
         onBlur={handleFieldBlur('name')}
         error={touched.name && Boolean(errors.name)}
         helperText={touched.name && errors.name}
-        startIcon={<Person />}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Person />
+            </InputAdornment>
+          ),
+        }}
         required
         fullWidth
       />
@@ -204,7 +216,13 @@ export function ReservationForm({
         onBlur={handleFieldBlur('phone')}
         error={touched.phone && Boolean(errors.phone)}
         helperText={touched.phone && errors.phone}
-        startIcon={<Phone />}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Phone />
+            </InputAdornment>
+          ),
+        }}
         fullWidth
       />
 
@@ -219,7 +237,13 @@ export function ReservationForm({
         onBlur={handleFieldBlur('message')}
         error={touched.message && Boolean(errors.message)}
         helperText={touched.message && errors.message}
-        startIcon={<Message />}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Message />
+            </InputAdornment>
+          ),
+        }}
         fullWidth
       />
 
@@ -289,7 +313,7 @@ export function ReservationForm({
   }
 
   return (
-    <Card className={className} padding="large">
+    <Card className={className} sx={{ padding: 3 }}>
       <div className="text-center mb-6">
         <Typography component="h2" className="font-bold text-gray-900 dark:text-white mb-2 text-xl">
           {t('title')}
