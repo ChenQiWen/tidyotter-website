@@ -29,7 +29,6 @@ export interface ReservationFormData {
   email: string;
   name: string;
   phone?: string;
-  message?: string;
 }
 
 // 主题相关类型

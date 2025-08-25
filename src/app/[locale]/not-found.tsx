@@ -9,7 +9,7 @@ import { MainLayout } from '@/components';
 import { cn } from '@/utils';
 
 export const metadata: Metadata = {
-  title: '页面未找到 - FileZen',
+  title: '页面未找到 - TidyOtter',
   description: '抱歉，您访问的页面不存在。',
   robots: 'noindex, nofollow',
 };

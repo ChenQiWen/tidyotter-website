@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // 站点地图配置
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://filezen.app';
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://tidyotter.app';
 const SUPPORTED_LOCALES = ['zh', 'en'];
 
 // 页面配置

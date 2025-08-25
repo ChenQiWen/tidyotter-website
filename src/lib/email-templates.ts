@@ -13,12 +13,12 @@ export interface EmailTemplateData {
 // 邮件主题配置
 export const EMAIL_SUBJECTS = {
   zh: {
-    userConfirmation: 'FileZen - 预约确认',
-    adminNotification: 'FileZen - 新的预约申请',
+    userConfirmation: 'TidyOtter - 预约确认',
+    adminNotification: 'TidyOtter - 新的预约申请',
   },
   en: {
-    userConfirmation: 'FileZen - Reservation Confirmation',
-    adminNotification: 'FileZen - New Reservation Request',
+    userConfirmation: 'TidyOtter - Reservation Confirmation',
+    adminNotification: 'TidyOtter - New Reservation Request',
   },
 } as const;
 
@@ -29,9 +29,9 @@ export function generateUserConfirmationEmail(data: EmailTemplateData): string {
   
   const content = {
     zh: {
-      title: 'FileZen 预约确认',
+      title: 'TidyOtter 预约确认',
       greeting: `亲爱的 ${name}，`,
-      confirmation: '感谢您对 FileZen 的关注！我们已收到您的预约申请。',
+      confirmation: '感谢您对 TidyOtter 的关注！我们已收到您的预约申请。',
       details: '您的预约详情：',
       emailLabel: '邮箱：',
       phoneLabel: '电话：',
@@ -40,24 +40,24 @@ export function generateUserConfirmationEmail(data: EmailTemplateData): string {
       step1: '我们的团队将在 24 小时内与您联系',
       step2: '我们会为您安排产品演示时间',
       step3: '您将收到详细的产品介绍和使用指南',
-      aboutProduct: '关于 FileZen：',
-      productDesc: 'FileZen 是一款智能桌面文件整理工具，帮助您自动分类和管理文件，提升工作效率。',
+      aboutProduct: '关于 TidyOtter：',
+      productDesc: 'TidyOtter 是一款智能桌面文件整理工具，帮助您自动分类和管理文件，提升工作效率。',
       features: '主要功能：',
       feature1: '🗂️ 智能文件分类',
       feature2: '🔍 快速文件搜索',
       feature3: '📊 文件使用统计',
       feature4: '🔄 自动备份同步',
       contact: '如有任何问题，请随时联系我们：',
-      contactEmail: '邮箱：support@filezen.app',
-      contactWebsite: '官网：https://filezen.app',
+      contactEmail: '邮箱：support@tidyotter.app',
+      contactWebsite: '官网：https://tidyotter.app',
       thanks: '再次感谢您的关注！',
-      team: 'FileZen 团队',
-      footer: '此邮件由 FileZen 自动发送，请勿直接回复。',
+      team: 'TidyOtter 团队',
+      footer: '此邮件由 TidyOtter 自动发送，请勿直接回复。',
     },
     en: {
-      title: 'FileZen Reservation Confirmation',
+      title: 'TidyOtter Reservation Confirmation',
       greeting: `Dear ${name},`,
-      confirmation: 'Thank you for your interest in FileZen! We have received your reservation request.',
+      confirmation: 'Thank you for your interest in TidyOtter! We have received your reservation request.',
       details: 'Your reservation details:',
       emailLabel: 'Email:',
       phoneLabel: 'Phone:',
@@ -66,19 +66,19 @@ export function generateUserConfirmationEmail(data: EmailTemplateData): string {
       step1: 'Our team will contact you within 24 hours',
       step2: 'We will schedule a product demonstration for you',
       step3: 'You will receive detailed product introduction and user guide',
-      aboutProduct: 'About FileZen:',
-      productDesc: 'FileZen is an intelligent desktop file organization tool that helps you automatically categorize and manage files, improving work efficiency.',
+      aboutProduct: 'About TidyOtter:',
+      productDesc: 'TidyOtter is an intelligent desktop file organization tool that helps you automatically categorize and manage files, improving work efficiency.',
       features: 'Key features:',
       feature1: '🗂️ Smart file categorization',
       feature2: '🔍 Quick file search',
       feature3: '📊 File usage statistics',
       feature4: '🔄 Automatic backup sync',
       contact: 'If you have any questions, please feel free to contact us:',
-      contactEmail: 'Email: support@filezen.app',
-      contactWebsite: 'Website: https://filezen.app',
+      contactEmail: 'Email: support@tidyotter.app',
+      contactWebsite: 'Website: https://tidyotter.app',
       thanks: 'Thank you again for your interest!',
-      team: 'FileZen Team',
-      footer: 'This email is automatically sent by FileZen, please do not reply directly.',
+      team: 'TidyOtter Team',
+      footer: 'This email is automatically sent by TidyOtter, please do not reply directly.',
     },
   };
   
@@ -206,7 +206,7 @@ export function generateUserConfirmationEmail(data: EmailTemplateData): string {
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">FileZen</div>
+      <div class="logo">TidyOtter</div>
       <div class="title">${t.title}</div>
     </div>
     
@@ -273,7 +273,7 @@ export function generateAdminNotificationEmail(data: EmailTemplateData): string 
   const content = {
     zh: {
       title: '新的预约申请',
-      notification: '您收到了一个新的 FileZen 预约申请：',
+      notification: '您收到了一个新的 TidyOtter 预约申请：',
       userInfo: '用户信息：',
       nameLabel: '姓名：',
       emailLabel: '邮箱：',
@@ -288,7 +288,7 @@ export function generateAdminNotificationEmail(data: EmailTemplateData): string 
     },
     en: {
       title: 'New Reservation Request',
-      notification: 'You have received a new FileZen reservation request:',
+      notification: 'You have received a new TidyOtter reservation request:',
       userInfo: 'User Information:',
       nameLabel: 'Name:',
       emailLabel: 'Email:',
@@ -423,7 +423,7 @@ export function generateAdminNotificationEmail(data: EmailTemplateData): string 
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">FileZen Admin</div>
+      <div class="logo">TidyOtter Admin</div>
       <div class="title">${t.title}</div>
     </div>
     
@@ -476,7 +476,7 @@ export function generateAdminNotificationEmail(data: EmailTemplateData): string 
     </div>
     
     <div class="footer">
-      <p>FileZen Admin Notification System</p>
+      <p>TidyOtter Admin Notification System</p>
     </div>
   </div>
 </body>
@@ -492,8 +492,8 @@ export function generatePlainTextEmail(data: EmailTemplateData, type: 'user' | '
   if (type === 'user') {
     const greeting = isZh ? `亲爱的 ${name}，` : `Dear ${name},`;
     const confirmation = isZh 
-      ? '感谢您对 FileZen 的关注！我们已收到您的预约申请。'
-      : 'Thank you for your interest in FileZen! We have received your reservation request.';
+      ? '感谢您对 TidyOtter 的关注！我们已收到您的预约申请。'
+      : 'Thank you for your interest in TidyOtter! We have received your reservation request.';
     
     const details = isZh ? '您的预约详情：' : 'Your reservation details:';
     const emailLabel = isZh ? '邮箱：' : 'Email:';
@@ -506,7 +506,7 @@ export function generatePlainTextEmail(data: EmailTemplateData, type: 'user' | '
       : ['Our team will contact you within 24 hours', 'We will schedule a product demonstration for you', 'You will receive detailed product introduction and user guide'];
     
     const contact = isZh ? '如有任何问题，请随时联系我们：' : 'If you have any questions, please feel free to contact us:';
-    const team = isZh ? 'FileZen 团队' : 'FileZen Team';
+    const team = isZh ? 'TidyOtter 团队' : 'TidyOtter Team';
     
     return `
 ${greeting}
@@ -524,8 +524,8 @@ ${nextSteps}
 ${steps.map((step, index) => `${index + 1}. ${step}`).join('\n')}
 
 ${contact}
-${isZh ? '邮箱：' : 'Email:'} support@filezen.app
-${isZh ? '官网：' : 'Website:'} https://filezen.app
+${isZh ? '邮箱：' : 'Email:'} support@tidyotter.app
+${isZh ? '官网：' : 'Website:'} https://tidyotter.app
 
 ${isZh ? '再次感谢您的关注！' : 'Thank you again for your interest!'}
 
@@ -533,8 +533,8 @@ ${team}
     `.trim();
   } else {
     const notification = isZh 
-      ? '您收到了一个新的 FileZen 预约申请：'
-      : 'You have received a new FileZen reservation request:';
+      ? '您收到了一个新的 TidyOtter 预约申请：'
+      : 'You have received a new TidyOtter reservation request:';
     
     const userInfo = isZh ? '用户信息：' : 'User Information:';
     const nameLabel = isZh ? '姓名：' : 'Name:';
@@ -554,7 +554,7 @@ ${reservationId ? `ID: ${reservationId}` : ''}
 ${timestamp ? `${isZh ? '时间：' : 'Time:'} ${new Date(timestamp).toLocaleString(locale)}` : ''}
 ${isZh ? '用户语言：' : 'User Language:'} ${locale}
 
-FileZen Admin Notification System
+TidyOtter Admin Notification System
     `.trim();
   }
 }

@@ -102,7 +102,7 @@ export function Header() {
                   >
                     <Image
                       src={logoSrc}
-                      alt="FileZen Logo"
+                      alt="TidyOtter Logo"
                       width={36}
                       height={36}
                       className="w-9 h-9 md:w-10 md:h-10 transition-all duration-300"
@@ -110,7 +110,6 @@ export function Header() {
                         filter: 'drop-shadow(0 2px 4px rgba(255, 140, 66, 0.3))',
                       }}
                       sizes="(max-width: 768px) 36px, 40px"
-                      srcSet={logoSrcSet}
                     />
                   </Box>
                 </Link>

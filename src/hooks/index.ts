@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useTheme } from 'next-themes';
 import type { ThemeMode, Locale } from '@/types';
 
@@ -411,16 +411,36 @@ export function useForm<T extends Record<string, any>>(
     [values, validateForm]
   );
 
+  // 计算表单是否有效
+  const isValid = useMemo(() => {
+    // Check if all required fields have values by running validation
+    const currentErrors = validate ? validate(values) : {};
+    
+    // For required fields, we check if they have values
+    // Email and name are required based on the validation function
+    const requiredFields = ['email', 'name'];
+    
+    const allRequiredFieldsHaveValues = requiredFields.every(field => {
+      const value = values[field];
+      return value !== undefined && value !== null && value !== '';
+    });
+    
+    // Check if there are no errors
+    const hasNoErrors = Object.keys(currentErrors).length === 0;
+    
+    return allRequiredFieldsHaveValues && hasNoErrors;
+   }, [values, validate]);
+
   return {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    setValue,
-    setFieldTouched,
-    validateForm,
-    reset,
-    handleSubmit,
-    isValid: Object.keys(errors).length === 0,
-  };
-}
+      values,
+      errors,
+      touched,
+      isSubmitting,
+      setValue,
+      setFieldTouched,
+      validateForm,
+      reset,
+      handleSubmit,
+      isValid,
+    };
+  }

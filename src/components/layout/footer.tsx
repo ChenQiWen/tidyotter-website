@@ -71,25 +71,25 @@ export function Footer() {
     {
       name: 'GitHub',
       icon: <GitHub />,
-      href: 'https://github.com/filezen',
+      href: 'https://github.com/tidyotter',
       color: 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
     },
     {
       name: 'Twitter',
       icon: <Twitter />,
-      href: 'https://twitter.com/filezen',
+      href: 'https://twitter.com/tidyotter',
       color: 'text-gray-600 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400',
     },
     {
       name: 'LinkedIn',
       icon: <LinkedIn />,
-      href: 'https://linkedin.com/company/filezen',
+      href: 'https://linkedin.com/company/tidyotter',
       color: 'text-gray-600 hover:text-blue-700 dark:text-gray-400 dark:hover:text-blue-500',
     },
     {
       name: 'Email',
       icon: <Email />,
-      href: 'mailto:hello@filezen.com',
+      href: 'mailto:hello@tidyotter.com',
       color: 'text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400',
     },
   ];
@@ -119,7 +119,7 @@ export function Footer() {
                   variant="h5"
                   className="font-bold text-gray-900 dark:text-white"
                 >
-                  FileZen
+                  TidyOtter
                 </Typography>
               </Link>
 
@@ -192,7 +192,7 @@ export function Footer() {
             variant="body2"
             className="text-gray-600 dark:text-gray-400 text-center sm:text-left"
           >
-            © {currentYear} FileZen. {t('copyright')}
+            © {currentYear} TidyOtter. {t('copyright')}
           </Typography>
 
           {/* Language & Additional Info */}

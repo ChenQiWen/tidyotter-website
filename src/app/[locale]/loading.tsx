@@ -46,7 +46,7 @@ export default function LoadingPage() {
           'animate-pulse'
         )}
       >
-        FileZen
+        TidyOtter
       </Typography>
       
       <Typography

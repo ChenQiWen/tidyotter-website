@@ -208,7 +208,8 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
+    // Note: These plugins should be installed as dependencies
+    // require('@tailwindcss/typography'),
+    // require('@tailwindcss/forms'),
   ],
 } satisfies Config;

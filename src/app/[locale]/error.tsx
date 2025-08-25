@@ -24,7 +24,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   
   const handleReportBug = () => {
     // Open bug report form or email
-    window.open('mailto:support@filezen.com?subject=Bug Report&body=' + encodeURIComponent(`Error: ${error.message}`));
+    window.open('mailto:support@tidyotter.com?subject=Bug Report&body=' + encodeURIComponent(`Error: ${error.message}`));
   };
   
   // 判断是否为开发环境
@@ -170,10 +170,10 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
                 如果问题持续存在，请联系我们的技术支持：
                 <br />
                 <a 
-                  href="mailto:support@filezen.app"
+                  href="mailto:support@tidyotter.app"
                   className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                 >
-                  support@filezen.app
+                  support@tidyotter.app
                 </a>
               </Typography>
             </Box>

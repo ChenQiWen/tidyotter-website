@@ -34,7 +34,7 @@
   "hero": {
     "title": "智能桌面文件整理工具",
     "subtitle": "让您的桌面保持整洁，提升工作效率",
-    "description": "FileZen 是一款强大的桌面文件管理工具，能够自动整理您的文件，让您的工作空间更加有序。",
+    "description": "TidyOtter 是一款强大的桌面文件管理工具，能够自动整理您的文件，让您的工作空间更加有序。",
     "cta_primary": "立即下载",
     "cta_secondary": "了解更多",
     "watch_demo": "观看演示"
@@ -88,7 +88,7 @@
     }
   },
   "footer": {
-    "description": "FileZen 致力于为用户提供最优秀的桌面文件管理体验。",
+    "description": "TidyOtter 致力于为用户提供最优秀的桌面文件管理体验。",
     "copyright": "版权所有",
     "additional_info": "本产品正在开发中，敬请期待正式版本的发布。",
     "product": {

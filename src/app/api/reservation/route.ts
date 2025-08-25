@@ -1,8 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { kv } from '@vercel/kv';
 import { Resend } from 'resend';
 // 移除trackEvent导入，服务端不使用客户端分析
+
+// 本地开发存储模拟
+const localStorage = new Map<string, any>();
+const localList: string[] = [];
+
+// KV存储接口
+interface KVInterface {
+  get<T = any>(key: string): Promise<T | null>;
+  set(key: string, value: any, options?: { ex?: number }): Promise<void>;
+  lpush(key: string, ...values: string[]): Promise<number>;
+  ltrim(key: string, start: number, stop: number): Promise<void>;
+  lrange(key: string, start: number, stop: number): Promise<string[]>;
+  ping(): Promise<string>;
+}
+
+// 本地KV实现
+const localKV: KVInterface = {
+  async get<T = any>(key: string): Promise<T | null> {
+    return localStorage.get(key) || null;
+  },
+  async set(key: string, value: any, options?: { ex?: number }): Promise<void> {
+    localStorage.set(key, value);
+    if (options?.ex) {
+      // 简单的过期实现
+      setTimeout(() => localStorage.delete(key), options.ex * 1000);
+    }
+  },
+  async lpush(key: string, ...values: string[]): Promise<number> {
+    if (key === 'reservations:list') {
+      localList.unshift(...values);
+      return localList.length;
+    }
+    return 0;
+  },
+  async ltrim(key: string, start: number, stop: number): Promise<void> {
+    if (key === 'reservations:list') {
+      localList.splice(stop + 1);
+    }
+  },
+  async lrange(key: string, start: number, stop: number): Promise<string[]> {
+    if (key === 'reservations:list') {
+      return localList.slice(start, stop === -1 ? undefined : stop + 1);
+    }
+    return [];
+  },
+  async ping(): Promise<string> {
+    return 'PONG';
+  }
+};
+
+// 动态选择KV实现
+function getKV(): KVInterface {
+  // 检查是否有KV配置
+  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    // 动态导入 @vercel/kv
+    try {
+      const { kv } = eval('require')('@vercel/kv');
+      return kv;
+    } catch (error) {
+      console.warn('Failed to load @vercel/kv, using local simulation');
+      return localKV;
+    }
+  }
+  // 使用本地模拟
+  console.log('Using local KV simulation for development');
+  return localKV;
+}
 
 // 初始化 Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -12,7 +78,6 @@ const reservationSchema = z.object({
   email: z.string().email('请输入有效的邮箱地址'),
   name: z.string().min(1, '请输入姓名').max(50, '姓名不能超过50个字符'),
   phone: z.string().optional(),
-  message: z.string().max(500, '留言不能超过500个字符').optional(),
   locale: z.string().optional(),
 });
 
@@ -25,6 +90,7 @@ const RATE_LIMIT = {
 // 检查速率限制
 async function checkRateLimit(ip: string): Promise<boolean> {
   try {
+    const kv = getKV();
     const key = `rate_limit:${ip}`;
     const current = await kv.get<number>(key) || 0;
     
@@ -43,6 +109,7 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 // 保存预约信息到Redis
 async function saveReservation(data: any): Promise<void> {
   try {
+    const kv = getKV();
     const reservationId = `reservation:${Date.now()}:${Math.random().toString(36).substr(2, 9)}`;
     const reservationData = {
       ...data,
@@ -78,16 +145,16 @@ async function sendConfirmationEmail(data: any): Promise<void> {
     const isZh = data.locale === 'zh';
     
     await resend.emails.send({
-      from: process.env.FROM_EMAIL || 'noreply@filezen.app',
+      from: process.env.FROM_EMAIL || 'noreply@tidyotter.app',
       to: [data.email],
-      subject: isZh ? 'FileZen 预约确认' : 'FileZen Reservation Confirmation',
+      subject: isZh ? 'TidyOtter 预约确认' : 'TidyOtter Reservation Confirmation',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1976d2;">${isZh ? 'FileZen 预约确认' : 'FileZen Reservation Confirmation'}</h2>
+          <h2 style="color: #1976d2;">${isZh ? 'TidyOtter 预约确认' : 'TidyOtter Reservation Confirmation'}</h2>
           <p>${isZh ? `亲爱的 ${data.name}，` : `Dear ${data.name},`}</p>
           <p>${isZh 
-            ? '感谢您对 FileZen 的关注！我们已收到您的预约申请，将在产品正式发布时第一时间通知您。' 
-            : 'Thank you for your interest in FileZen! We have received your reservation and will notify you first when the product is officially released.'
+            ? '感谢您对 TidyOtter 的关注！我们已收到您的预约申请，将在产品正式发布时第一时间通知您。' 
+            : 'Thank you for your interest in TidyOtter! We have received your reservation and will notify you first when the product is officially released.'
           }</p>
           
           <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -95,12 +162,11 @@ async function sendConfirmationEmail(data: any): Promise<void> {
             <p><strong>${isZh ? '邮箱' : 'Email'}:</strong> ${data.email}</p>
             <p><strong>${isZh ? '姓名' : 'Name'}:</strong> ${data.name}</p>
             ${data.phone ? `<p><strong>${isZh ? '手机' : 'Phone'}:</strong> ${data.phone}</p>` : ''}
-            ${data.message ? `<p><strong>${isZh ? '留言' : 'Message'}:</strong> ${data.message}</p>` : ''}
           </div>
           
           <p>${isZh 
-            ? 'FileZen 是一款智能桌面文件整理工具，致力于让您的工作空间更加整洁有序。' 
-            : 'FileZen is a smart desktop file organizer designed to keep your workspace clean and organized.'
+            ? 'TidyOtter 是一款智能桌面文件整理工具，致力于让您的工作空间更加整洁有序。' 
+            : 'TidyOtter is a smart desktop file organizer designed to keep your workspace clean and organized.'
           }</p>
           
           <p style="color: #666; font-size: 14px;">
@@ -129,19 +195,18 @@ async function sendNotificationEmail(data: any): Promise<void> {
     }
     
     await resend.emails.send({
-      from: process.env.FROM_EMAIL || 'noreply@filezen.app',
+      from: process.env.FROM_EMAIL || 'noreply@tidyotter.app',
       to: [process.env.ADMIN_EMAIL],
-      subject: 'FileZen 新预约通知',
+      subject: 'TidyOtter 新预约通知',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1976d2;">FileZen 新预约通知</h2>
+          <h2 style="color: #1976d2;">TidyOtter 新预约通知</h2>
           <p>收到新的预约申请：</p>
           
           <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>邮箱:</strong> ${data.email}</p>
             <p><strong>姓名:</strong> ${data.name}</p>
             ${data.phone ? `<p><strong>手机:</strong> ${data.phone}</p>` : ''}
-            ${data.message ? `<p><strong>留言:</strong> ${data.message}</p>` : ''}
             <p><strong>语言:</strong> ${data.locale || 'zh'}</p>
             <p><strong>时间:</strong> ${new Date().toLocaleString('zh-CN')}</p>
           </div>
@@ -195,6 +260,7 @@ export async function POST(request: NextRequest) {
     
     // 检查邮箱是否已存在
     try {
+      const kv = getKV();
       const existingReservations = await kv.lrange('reservations:list', 0, -1);
       for (const reservationId of existingReservations) {
         const reservation = await kv.get(reservationId);
@@ -269,6 +335,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     // 检查Redis连接
+    const kv = getKV();
     await kv.ping();
     
     return NextResponse.json(

@@ -34,7 +34,7 @@
   "hero": {
     "title": "Smart Desktop File Organizer",
     "subtitle": "Keep your desktop clean and boost productivity",
-    "description": "FileZen is a powerful desktop file management tool that automatically organizes your files, making your workspace more organized.",
+    "description": "TidyOtter is a powerful desktop file management tool that automatically organizes your files, making your workspace more organized.",
     "cta_primary": "Download Now",
     "cta_secondary": "Learn More",
     "watch_demo": "Watch Demo"
@@ -88,7 +88,7 @@
     }
   },
   "footer": {
-    "description": "FileZen is committed to providing users with the best desktop file management experience.",
+    "description": "TidyOtter is committed to providing users with the best desktop file management experience.",
     "copyright": "All rights reserved",
     "additional_info": "This product is under development, please stay tuned for the official release.",
     "product": {

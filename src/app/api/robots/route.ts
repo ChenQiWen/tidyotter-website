@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 // 生成robots.txt内容
 function generateRobotsTxt(): string {
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://filezen.app';
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://tidyotter.app';
   const isProduction = process.env.NODE_ENV === 'production';
   
   let robotsTxt = '';
@@ -99,7 +99,7 @@ function generateRobotsTxt(): string {
   // 添加额外信息
   robotsTxt += `# Additional information\n`;
   robotsTxt += `# Website: ${siteUrl}\n`;
-  robotsTxt += `# Contact: support@filezen.app\n`;
+  robotsTxt += `# Contact: support@tidyotter.app\n`;
   robotsTxt += `# Last updated: ${new Date().toISOString().split('T')[0]}\n`;
   
   return robotsTxt;

@@ -36,18 +36,18 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
             <img 
               src="/logo/1x.png" 
               srcSet="/logo/1x.png 1x, /logo/2x.png 2x, /logo/3x.png 3x"
-              alt="FileZen Logo" 
+              alt="TidyOtter Logo" 
               className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64"
               sizes="(max-width: 640px) 144px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
             />
           </Box>
           
-          {/* FileZen 标题 */}
+          {/* TidyOtter 标题 */}
           <Typography
             variant="h1"
             className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold text-white mb-4"
           >
-            FileZen
+            TidyOtter
           </Typography>
           
           {/* Slogan */}
