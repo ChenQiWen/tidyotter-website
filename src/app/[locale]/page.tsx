@@ -34,9 +34,11 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
           {/* Logo */}
           <Box className="flex justify-center mb-12">
             <img 
-              src="/logo/logo.png" 
+              src="/logo/1x.png" 
+              srcSet="/logo/1x.png 1x, /logo/2x.png 2x, /logo/3x.png 3x"
               alt="FileZen Logo" 
               className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64"
+              sizes="(max-width: 640px) 144px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
             />
           </Box>
           

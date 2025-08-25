@@ -26,7 +26,8 @@ export function Header() {
   const router = useRouter();
   
   // 使用统一的主题响应式logo
-  const logoSrc = '/logo/logo.png';
+  const logoSrc = '/logo/1x.png';
+  const logoSrcSet = '/logo/1x.png 1x, /logo/2x.png 2x, /logo/3x.png 3x';
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -108,6 +109,8 @@ export function Header() {
                       style={{
                         filter: 'drop-shadow(0 2px 4px rgba(255, 140, 66, 0.3))',
                       }}
+                      sizes="(max-width: 768px) 36px, 40px"
+                      srcSet={logoSrcSet}
                     />
                   </Box>
                 </Link>
