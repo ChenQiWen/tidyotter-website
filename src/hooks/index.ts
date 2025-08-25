@@ -364,17 +364,30 @@ export function useForm<T extends Record<string, any>>(
 
   const setValue = useCallback((name: keyof T, value: any) => {
     setValues(prev => ({ ...prev, [name]: value }));
-    if (touched[name] && validate) {
-      const newErrors = validate({ ...values, [name]: value });
-      setErrors(prev => ({ ...prev, [name]: newErrors[name] }));
+    // 移除实时校验，只在失去焦点时校验
+    // 如果字段已经被touched且有错误，在输入时清除错误
+    if (touched[name] && errors[name]) {
+      setErrors(prev => {
+        const { [name]: removed, ...rest } = prev;
+        return rest;
+      });
     }
-  }, [values, touched, validate]);
+  }, [touched, errors]);
 
   const setFieldTouched = useCallback((name: keyof T, isTouched = true) => {
     setTouched(prev => ({ ...prev, [name]: isTouched }));
+    // 只在失去焦点且字段被标记为touched时进行校验
     if (isTouched && validate) {
       const newErrors = validate(values);
-      setErrors(prev => ({ ...prev, [name]: newErrors[name] }));
+      // 只有当字段有错误时才设置错误，否则清除该字段的错误
+      if (newErrors[name]) {
+        setErrors(prev => ({ ...prev, [name]: newErrors[name] }));
+      } else {
+        setErrors(prev => {
+          const { [name]: removed, ...rest } = prev;
+          return rest;
+        });
+      }
     }
   }, [values, validate]);
 
@@ -413,9 +426,6 @@ export function useForm<T extends Record<string, any>>(
 
   // 计算表单是否有效
   const isValid = useMemo(() => {
-    // Check if all required fields have values by running validation
-    const currentErrors = validate ? validate(values) : {};
-    
     // For required fields, we check if they have values
     // Email and name are required based on the validation function
     const requiredFields = ['email', 'name'];
@@ -425,11 +435,11 @@ export function useForm<T extends Record<string, any>>(
       return value !== undefined && value !== null && value !== '';
     });
     
-    // Check if there are no errors
-    const hasNoErrors = Object.keys(currentErrors).length === 0;
+    // Check if there are no errors in the current errors state
+    const hasNoErrors = Object.keys(errors).length === 0;
     
     return allRequiredFieldsHaveValues && hasNoErrors;
-   }, [values, validate]);
+   }, [values, errors]);
 
   return {
       values,

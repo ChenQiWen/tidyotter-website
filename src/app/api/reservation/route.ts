@@ -1,11 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
+import { createClient } from 'redis';
 // 移除trackEvent导入，服务端不使用客户端分析
 
-// 本地开发存储模拟
-const localStorage = new Map<string, any>();
-const localList: string[] = [];
+// Redis客户端实例
+let redisClient: any = null;
+
+// 初始化Redis连接
+async function getRedisClient() {
+  if (!redisClient) {
+    if (!process.env.REDIS_URL) {
+      throw new Error('REDIS_URL environment variable is required');
+    }
+    
+    redisClient = createClient({
+      url: process.env.REDIS_URL
+    });
+    
+    redisClient.on('error', (err: any) => {
+      console.error('Redis Client Error:', err);
+    });
+    
+    await redisClient.connect();
+    console.log('Connected to Redis successfully');
+  }
+  
+  return redisClient;
+}
 
 // KV存储接口
 interface KVInterface {
@@ -17,57 +39,43 @@ interface KVInterface {
   ping(): Promise<string>;
 }
 
-// 本地KV实现
-const localKV: KVInterface = {
+// Redis KV实现
+const redisKV: KVInterface = {
   async get<T = any>(key: string): Promise<T | null> {
-    return localStorage.get(key) || null;
+    const client = await getRedisClient();
+    const value = await client.get(key);
+    return value ? JSON.parse(value) : null;
   },
   async set(key: string, value: any, options?: { ex?: number }): Promise<void> {
-    localStorage.set(key, value);
+    const client = await getRedisClient();
+    const serializedValue = JSON.stringify(value);
     if (options?.ex) {
-      // 简单的过期实现
-      setTimeout(() => localStorage.delete(key), options.ex * 1000);
+      await client.setEx(key, options.ex, serializedValue);
+    } else {
+      await client.set(key, serializedValue);
     }
   },
   async lpush(key: string, ...values: string[]): Promise<number> {
-    if (key === 'reservations:list') {
-      localList.unshift(...values);
-      return localList.length;
-    }
-    return 0;
+    const client = await getRedisClient();
+    return await client.lPush(key, values);
   },
   async ltrim(key: string, start: number, stop: number): Promise<void> {
-    if (key === 'reservations:list') {
-      localList.splice(stop + 1);
-    }
+    const client = await getRedisClient();
+    await client.lTrim(key, start, stop);
   },
   async lrange(key: string, start: number, stop: number): Promise<string[]> {
-    if (key === 'reservations:list') {
-      return localList.slice(start, stop === -1 ? undefined : stop + 1);
-    }
-    return [];
+    const client = await getRedisClient();
+    return await client.lRange(key, start, stop);
   },
   async ping(): Promise<string> {
-    return 'PONG';
+    const client = await getRedisClient();
+    return await client.ping();
   }
 };
 
-// 动态选择KV实现
+// 获取KV实现（强制使用Redis）
 function getKV(): KVInterface {
-  // 检查是否有KV配置
-  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
-    // 动态导入 @vercel/kv
-    try {
-      const { kv } = eval('require')('@vercel/kv');
-      return kv;
-    } catch (error) {
-      console.warn('Failed to load @vercel/kv, using local simulation');
-      return localKV;
-    }
-  }
-  // 使用本地模拟
-  console.log('Using local KV simulation for development');
-  return localKV;
+  return redisKV;
 }
 
 // 初始化 Resend
@@ -331,34 +339,154 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// 健康检查端点
-export async function GET() {
+// 简单的token验证
+function validateToken(request: NextRequest): boolean {
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.replace('Bearer ', '');
+  
+  // 简单的token验证，可以设置环境变量或使用固定token
+  const validToken = process.env.ADMIN_TOKEN || 'admin-token-2024';
+  return token === validToken;
+}
+
+// 获取预约列表
+async function getReservationList(page: number = 1, limit: number = 10): Promise<{
+  reservations: any[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
   try {
-    // 检查Redis连接
     const kv = getKV();
-    await kv.ping();
     
-    return NextResponse.json(
-      { 
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        services: {
-          redis: 'connected',
-          email: process.env.RESEND_API_KEY ? 'configured' : 'not_configured'
+    // 获取所有预约ID
+    const allReservationIds = await kv.lrange('reservations:list', 0, -1);
+    const total = allReservationIds.length;
+    
+    // 计算分页
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedIds = allReservationIds.slice(startIndex, endIndex);
+    
+    // 获取预约详情
+    const reservations = [];
+    for (const id of paginatedIds) {
+      try {
+        const reservation = await kv.get(id);
+        if (reservation) {
+          // 格式化数据，移除敏感信息
+          const formattedReservation = {
+            id: (reservation as any).id,
+            email: (reservation as any).email,
+            name: (reservation as any).name,
+            phone: (reservation as any).phone || '',
+            locale: (reservation as any).locale || 'zh',
+            status: (reservation as any).status || 'pending',
+            createdAt: (reservation as any).createdAt,
+            createdAtFormatted: new Date((reservation as any).createdAt).toLocaleString('zh-CN')
+          };
+          reservations.push(formattedReservation);
         }
-      },
-      { status: 200 }
-    );
+      } catch (error) {
+        console.error(`Failed to get reservation ${id}:`, error);
+      }
+    }
+    
+    return {
+      reservations,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    };
   } catch (error) {
-    console.error('Health check failed:', error);
+    console.error('Failed to get reservation list:', error);
+    throw error;
+  }
+}
+
+// GET方法 - 支持健康检查和预约列表查询
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const list = searchParams.get('list');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '10'), 100); // 最大100条
+    
+    // 如果没有查询参数，返回健康检查
+    if (!list) {
+      const kv = getKV();
+      await kv.ping();
+      
+      return NextResponse.json(
+        { 
+          status: 'healthy',
+          timestamp: new Date().toISOString(),
+          services: {
+            redis: 'connected',
+            email: process.env.RESEND_API_KEY ? 'configured' : 'not_configured'
+          }
+        },
+        { status: 200 }
+      );
+    }
+    
+    // 如果请求预约列表，需要验证token
+    if (list === 'true') {
+      if (!validateToken(request)) {
+        return NextResponse.json(
+          { 
+            error: '未授权访问',
+            code: 'UNAUTHORIZED'
+          },
+          { status: 401 }
+        );
+      }
+      
+      // 验证分页参数
+      if (page < 1 || limit < 1) {
+        return NextResponse.json(
+          { 
+            error: '无效的分页参数',
+            code: 'INVALID_PARAMS'
+          },
+          { status: 400 }
+        );
+      }
+      
+      // 获取预约列表
+      const result = await getReservationList(page, limit);
+      
+      return NextResponse.json(
+        {
+          success: true,
+          data: result,
+          timestamp: new Date().toISOString()
+        },
+        { status: 200 }
+      );
+    }
+    
+    // 其他查询参数暂不支持
+    return NextResponse.json(
+      { 
+        error: '不支持的查询参数',
+        code: 'UNSUPPORTED_QUERY'
+      },
+      { status: 400 }
+    );
+    
+  } catch (error) {
+    console.error('GET API error:', error);
     
     return NextResponse.json(
       { 
-        status: 'unhealthy',
-        error: 'Service check failed',
+        error: '服务器错误',
+        code: 'INTERNAL_ERROR',
         timestamp: new Date().toISOString()
       },
-      { status: 503 }
+      { status: 500 }
     );
   }
 }

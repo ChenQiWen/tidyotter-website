@@ -61,22 +61,22 @@
   },
   "reservation": {
     "title": "预约体验",
-    "subtitle": "留下您的联系方式，我们将第一时间通知您产品上线",
+    "subtitle": "产品上线后 我们会第一时间发邮件告诉您",
     "cta": "立即预约",
     "success": "预约成功！我们会尽快与您联系。",
     "success_message": "感谢您的预约！我们已收到您的信息，将在产品正式发布时第一时间通知您。",
     "form": {
       "email": {
         "label": "邮箱地址",
-        "placeholder": "请输入您的邮箱地址"
+        "placeholder": "您的邮箱地址"
       },
       "name": {
         "label": "姓名",
-        "placeholder": "请输入您的姓名"
+        "placeholder": "该怎么称呼您"
       },
       "phone": {
         "label": "手机号码",
-        "placeholder": "请输入您的手机号码（可选）"
+        "placeholder": "如果您需要短信接收通知 请留下手机号码"
       },
       "message": {
         "label": "留言",

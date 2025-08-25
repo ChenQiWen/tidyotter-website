@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Alert,
   CircularProgress,
   Typography,
   useTheme,
@@ -21,6 +20,7 @@ import { Email, Person, Phone } from '@/components/icons';
 import { Input, Card } from '@/components/ui';
 import { useForm } from '@/hooks';
 import { isValidEmail, isValidPhone } from '@/utils';
+import { Toast } from '@/components/ui/toast';
 
 import type { ReservationFormData, ApiResponse } from '@/types';
 
@@ -151,69 +151,22 @@ export function ReservationForm({
 
   const formContent = (
     <form onSubmit={handleSubmit(submitReservation)} className="space-y-6">
-      {/* Status Messages */}
-      <AnimatePresence>
-        {submitStatus.message && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Alert 
-              severity={submitStatus.type || 'info'} 
-              className="mb-4"
-              onClose={() => setSubmitStatus({ type: null, message: '' })}
-              sx={{
-                borderRadius: '12px',
-                border: '2px solid',
-                borderColor: submitStatus.type === 'success' ? '#FF8C42' : submitStatus.type === 'error' ? '#f44336' : '#FFD93D',
-                background: submitStatus.type === 'success' 
-                  ? 'linear-gradient(135deg, rgba(255, 140, 66, 0.15) 0%, rgba(255, 217, 61, 0.1) 100%)' 
-                  : submitStatus.type === 'error' 
-                  ? 'linear-gradient(135deg, rgba(244, 67, 54, 0.15) 0%, rgba(255, 140, 66, 0.1) 100%)' 
-                  : 'linear-gradient(135deg, rgba(255, 217, 61, 0.15) 0%, rgba(255, 140, 66, 0.1) 100%)',
-                backdropFilter: 'blur(8px)',
-                boxShadow: submitStatus.type === 'success' 
-                  ? '0 8px 25px rgba(255, 140, 66, 0.2)' 
-                  : submitStatus.type === 'error' 
-                  ? '0 8px 25px rgba(244, 67, 54, 0.2)' 
-                  : '0 8px 25px rgba(255, 217, 61, 0.2)',
-                '& .MuiAlert-icon': {
-                  color: submitStatus.type === 'success' ? '#FF8C42' : submitStatus.type === 'error' ? '#f44336' : '#FFD93D',
-                },
-                '& .MuiAlert-message': {
-                  color: submitStatus.type === 'success' ? '#996633' : submitStatus.type === 'error' ? '#d32f2f' : '#996633',
-                  fontWeight: 500,
-                },
-                '& .MuiAlert-action': {
-                  '& .MuiIconButton-root': {
-                    color: submitStatus.type === 'success' ? '#FF8C42' : submitStatus.type === 'error' ? '#f44336' : '#FFD93D',
-                  },
-                },
-              }}
-            >
-              {submitStatus.message}
-            </Alert>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* Email Field */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
+        className="relative"
       >
         <Input
-        label={t('form.email.label')}
         placeholder={t('form.email.placeholder')}
         type="email"
         value={values.email}
         onChange={handleFieldChange('email')}
         onBlur={handleFieldBlur('email')}
         error={touched.email && Boolean(errors.email)}
-        helperText={touched.email && errors.email}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -259,10 +212,40 @@ export function ReservationForm({
             color: '#663311',
             fontWeight: 500,
             fontSize: '1.1rem',
-            padding: '20px 16px 20px 56px', // 增加左侧padding为图标留出空间
+            padding: '20px 16px 20px 0', // 减小左侧padding，让图标和文字更紧凑
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              WebkitTextFillColor: '#663311 !important',
+              transition: 'background-color 5000s ease-in-out 0s',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
+            '&:-webkit-autofill:hover': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
+            '&:-webkit-autofill:focus': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
           },
         }}
         />
+        {/* 自定义错误提示 - 弱提醒样式 */}
+        <AnimatePresence>
+          {touched.email && errors.email && (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10"
+            >
+              <div className="bg-gradient-to-r from-orange-100 to-yellow-50 border border-orange-200 rounded-lg px-3 py-1 shadow-sm">
+                <span className="text-orange-600 text-xs font-medium">{errors.email}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* Name Field */}
@@ -270,15 +253,14 @@ export function ReservationForm({
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
+        className="relative"
       >
         <Input
-        label={t('form.name.label')}
         placeholder={t('form.name.placeholder')}
         value={values.name}
         onChange={handleFieldChange('name')}
         onBlur={handleFieldBlur('name')}
         error={touched.name && Boolean(errors.name)}
-        helperText={touched.name && errors.name}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -324,10 +306,40 @@ export function ReservationForm({
             color: '#663311',
             fontWeight: 500,
             fontSize: '1.1rem',
-            padding: '20px 16px 20px 56px', // 增加左侧padding为图标留出空间
+            padding: '20px 16px 20px 0', // 减小左侧padding，让图标和文字更紧凑
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              WebkitTextFillColor: '#663311 !important',
+              transition: 'background-color 5000s ease-in-out 0s',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
+            '&:-webkit-autofill:hover': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
+            '&:-webkit-autofill:focus': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              backgroundColor: 'rgba(255, 248, 240, 0.8) !important',
+            },
           },
         }}
         />
+        {/* 自定义错误提示 - 弱提醒样式 */}
+        <AnimatePresence>
+          {touched.name && errors.name && (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10"
+            >
+              <div className="bg-gradient-to-r from-orange-100 to-yellow-50 border border-orange-200 rounded-lg px-3 py-1 shadow-sm">
+                <span className="text-orange-600 text-xs font-medium">{errors.name}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* Phone Field */}
@@ -335,16 +347,15 @@ export function ReservationForm({
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
+        className="relative"
       >
         <Input
-        label={t('form.phone.label')}
         placeholder={t('form.phone.placeholder')}
         type="tel"
         value={values.phone}
         onChange={handleFieldChange('phone')}
         onBlur={handleFieldBlur('phone')}
         error={touched.phone && Boolean(errors.phone)}
-        helperText={touched.phone && errors.phone}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -389,13 +400,38 @@ export function ReservationForm({
             color: '#663311',
             fontWeight: 500,
             fontSize: '1.1rem',
-            padding: '20px 16px 20px 56px', // 增加左侧padding为图标留出空间
+            padding: '20px 16px 20px 0', // 减小左侧padding，让图标和文字更紧凑
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+              WebkitTextFillColor: '#663311 !important',
+              transition: 'background-color 5000s ease-in-out 0s',
+            },
+            '&:-webkit-autofill:hover': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+            },
+            '&:-webkit-autofill:focus': {
+              WebkitBoxShadow: '0 0 0 1000px rgba(255, 248, 240, 0.8) inset !important',
+            },
           },
         }}
         />
+        {/* 自定义错误提示 - 弱提醒样式 */}
+        <AnimatePresence>
+          {touched.phone && errors.phone && (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10"
+            >
+              <div className="bg-gradient-to-r from-orange-100 to-yellow-50 border border-orange-200 rounded-lg px-3 py-1 shadow-sm">
+                <span className="text-orange-600 text-xs font-medium">{errors.phone}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
-
-
 
       {/* Submit Button */}
       <motion.div
@@ -537,7 +573,14 @@ export function ReservationForm({
 
   if (variant === 'modal') {
     return (
-      <Dialog
+      <>
+        <Toast
+          open={Boolean(submitStatus.message)}
+          type={submitStatus.type}
+          message={submitStatus.message}
+          onClose={() => setSubmitStatus({ type: null, message: '' })}
+        />
+        <Dialog
         open={open}
         onClose={onClose}
         maxWidth="sm"
@@ -668,7 +711,7 @@ export function ReservationForm({
           >
             <Typography 
               component="div" 
-              className="font-bold text-3xl mb-2"
+              className="font-bold text-4xl mb-2"
               sx={{
                 color: '#FF8C42',
                 textShadow: '0 2px 4px rgba(255, 140, 66, 0.2)',
@@ -721,20 +764,29 @@ export function ReservationForm({
           </motion.div>
         </DialogContent>
       </Dialog>
+      </>
     );
   }
 
   return (
-    <Card className={className} sx={{ padding: 3 }}>
-      <div className="text-center mb-6">
-        <Typography component="h2" className="font-bold text-gray-900 dark:text-white mb-2 text-xl">
-          {t('title')}
-        </Typography>
-        <Typography variant="body2" className="text-gray-600 dark:text-gray-400">
-          {t('subtitle')}
-        </Typography>
-      </div>
-      {formContent}
-    </Card>
+    <>
+      <Toast
+        open={Boolean(submitStatus.message)}
+        type={submitStatus.type}
+        message={submitStatus.message}
+        onClose={() => setSubmitStatus({ type: null, message: '' })}
+      />
+      <Card className={className} sx={{ padding: 3 }}>
+        <div className="text-center mb-6">
+          <Typography component="h2" className="font-bold text-gray-900 dark:text-white mb-2 text-xl">
+            {t('title')}
+          </Typography>
+          <Typography variant="body2" className="text-gray-600 dark:text-gray-400">
+            {t('subtitle')}
+          </Typography>
+        </div>
+        {formContent}
+      </Card>
+    </>
   );
 }
