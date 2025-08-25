@@ -20,18 +20,44 @@ export interface ThemeColors {
  * @returns 提取到的颜色数组
  */
 export function extractColorsFromSVG(svgContent: string): string[] {
-  const colorRegex = /(fill|stroke)="([^"]*)"/g;
   const colors = new Set<string>();
-  let match;
-
-  while ((match = colorRegex.exec(svgContent)) !== null) {
-    const color = match[2];
-    // 过滤掉 "none" 和 URL 引用
-    if (color && color !== 'none' && !color.startsWith('url(')) {
-      colors.add(color);
-    }
+  
+  // 匹配 fill 属性
+  const fillMatches = svgContent.match(/fill=["']([^"']+)["']/g);
+  if (fillMatches) {
+    fillMatches.forEach(match => {
+      const color = match.match(/fill=["']([^"']+)["']/)?.[1];
+      if (color && color !== 'none' && color !== 'transparent') {
+        colors.add(color.toUpperCase()); // 统一转换为大写
+      }
+    });
   }
-
+  
+  // 匹配 stroke 属性
+  const strokeMatches = svgContent.match(/stroke=["']([^"']+)["']/g);
+  if (strokeMatches) {
+    strokeMatches.forEach(match => {
+      const color = match.match(/stroke=["']([^"']+)["']/)?.[1];
+      if (color && color !== 'none' && color !== 'transparent') {
+        colors.add(color.toUpperCase()); // 统一转换为大写
+      }
+    });
+  }
+  
+  // 匹配十六进制颜色（包括3位和6位）
+  const hexMatches = svgContent.match(/#[0-9A-Fa-f]{3,6}/g);
+  if (hexMatches) {
+    hexMatches.forEach(color => {
+      // 将3位十六进制转换为6位
+      if (color.length === 4) {
+        const expanded = '#' + color[1] + color[1] + color[2] + color[2] + color[3] + color[3];
+        colors.add(expanded.toUpperCase());
+      } else {
+        colors.add(color.toUpperCase());
+      }
+    });
+  }
+  
   return Array.from(colors);
 }
 
@@ -43,16 +69,76 @@ export function extractColorsFromSVG(svgContent: string): string[] {
  */
 export function replaceSVGColors(svgContent: string, colorMapping: ColorMapping): string {
   let result = svgContent;
-
-  // 替换 fill 属性中的颜色
-  Object.entries(colorMapping).forEach(([originalColor, newColor]) => {
-    const fillRegex = new RegExp(`fill="${originalColor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g');
-    const strokeRegex = new RegExp(`stroke="${originalColor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g');
+  
+  Object.entries(colorMapping).forEach(([oldColor, newColor]) => {
+    const oldColorUpper = oldColor.toUpperCase();
+    const oldColorLower = oldColor.toLowerCase();
     
-    result = result.replace(fillRegex, `fill="${newColor}"`);
-    result = result.replace(strokeRegex, `stroke="${newColor}"`);
+    // 创建转义后的颜色字符串
+    const escapedUpper = oldColorUpper.replace('#', '\\#');
+    const escapedLower = oldColorLower.replace('#', '\\#');
+    
+    // 替换 fill 属性中的颜色（支持双引号和单引号）
+    result = result.replace(
+      new RegExp(`fill=["']${escapedUpper}["']`, 'gi'),
+      `fill="${newColor}"`
+    );
+    result = result.replace(
+      new RegExp(`fill=["']${escapedLower}["']`, 'gi'),
+      `fill="${newColor}"`
+    );
+    
+    // 替换 stroke 属性中的颜色（支持双引号和单引号）
+    result = result.replace(
+      new RegExp(`stroke=["']${escapedUpper}["']`, 'gi'),
+      `stroke="${newColor}"`
+    );
+    result = result.replace(
+      new RegExp(`stroke=["']${escapedLower}["']`, 'gi'),
+      `stroke="${newColor}"`
+    );
+    
+    // 替换 stop-color 属性（用于渐变）
+    result = result.replace(
+      new RegExp(`stop-color=["']${escapedUpper}["']`, 'gi'),
+      `stop-color="${newColor}"`
+    );
+    result = result.replace(
+      new RegExp(`stop-color=["']${escapedLower}["']`, 'gi'),
+      `stop-color="${newColor}"`
+    );
+    
+    // 替换 flood-color 属性（用于滤镜）
+    result = result.replace(
+      new RegExp(`flood-color=["']${escapedUpper}["']`, 'gi'),
+      `flood-color="${newColor}"`
+    );
+    result = result.replace(
+      new RegExp(`flood-color=["']${escapedLower}["']`, 'gi'),
+      `flood-color="${newColor}"`
+    );
+    
+    // 替换CSS样式中的颜色
+    result = result.replace(
+      new RegExp(`color:\\s*${escapedUpper}`, 'gi'),
+      `color: ${newColor}`
+    );
+    result = result.replace(
+      new RegExp(`color:\\s*${escapedLower}`, 'gi'),
+      `color: ${newColor}`
+    );
+    
+    // 替换其他直接的颜色引用（更精确的匹配）
+    result = result.replace(
+      new RegExp(`(?<![a-fA-F0-9])${escapedUpper}(?![a-fA-F0-9])`, 'g'),
+      newColor
+    );
+    result = result.replace(
+      new RegExp(`(?<![a-fA-F0-9])${escapedLower}(?![a-fA-F0])`, 'g'),
+      newColor
+    );
   });
-
+  
   return result;
 }
 
@@ -62,41 +148,78 @@ export function replaceSVGColors(svgContent: string, colorMapping: ColorMapping)
  * @returns 颜色映射对象
  */
 export function getThemeColorMapping(theme: 'light' | 'dark'): ColorMapping {
-  // 基于SVG中发现的颜色定义主题映射
-  const themeColors: ThemeColors = {
+  const mappings: Record<'light' | 'dark', ColorMapping> = {
     light: {
-      // 主要颜色 - 橙色系
-      '#FF6B35': '#FF6B35', // 保持原橙色
-      '#FF8C42': '#FF8C42', // 保持原橙色
-      '#FFA726': '#FFA726', // 保持原橙色
+      // SVG中实际存在的颜色保持不变
+      '#FDE1BC': '#FDE1BC', // 水獭身体浅橙色
+      '#823746': '#823746', // 水獭轮廓深红棕色
+      '#FCDCB4': '#FCDCB4', // 水獭细节浅肉色
+      '#FFFFFE': '#FFFFFE', // 高亮白色
       
-      // 深色部分 - 在浅色主题下保持深色
-      '#823746': '#2D1B69', // 深紫色
-      '#5D4E75': '#2D1B69', // 深紫色
+      // 其他可能的橙色系
+      '#F97316': '#F97316', // 橙色
+      '#FB923C': '#FB923C', // 浅橙色
+      '#FED7AA': '#FED7AA', // 极浅橙色
+      '#FDBA74': '#FDBA74', // 中橙色
+      '#F59E0B': '#F59E0B', // 琥珀色
+      '#D97706': '#D97706', // 深橙色
+      '#92400E': '#92400E', // 极深橙色
       
-      // 浅色部分 - 在浅色主题下稍微调整
-      '#FDE1BC': '#FFF3E0', // 更浅的橙色背景
-      '#FCDCB4': '#FFE0B2', // 浅橙色
-      '#FFFFFE': '#FFFFFF', // 纯白色
+      // 通用橙色系
+      '#FF6B35': '#FF6B35',
+      '#FF8C42': '#FF8C42', 
+      '#FFA726': '#FFA726',
+      '#FFB74D': '#FFB74D',
+      '#FFCC80': '#FFCC80',
+      
+      // 深色部分
+      '#2C3E50': '#34495E',
+      '#34495E': '#3A4A5C',
+      '#1A1A1A': '#2C2C2C',
+      '#333333': '#404040',
+      
+      // 浅色部分
+      '#F8F9FA': '#F8F9FA',
+      '#FFFFFF': '#FFFFFF',
+      '#E9ECEF': '#E9ECEF'
     },
     dark: {
-      // 主要颜色 - 在深色主题下调整橙色
-      '#FF6B35': '#FF8A50', // 稍微亮一点的橙色
-      '#FF8C42': '#FFB74D', // 稍微亮一点的橙色
-      '#FFA726': '#FFCC02', // 更亮的黄橙色
+      // SVG中实际存在的颜色映射为紫蓝色系
+      '#FDE1BC': '#8B5CF6', // 水獭身体：浅橙色 -> 紫色
+      '#823746': '#312E81', // 水獭轮廓：深红棕色 -> 深紫蓝色
+      '#FCDCB4': '#A78BFA', // 水獭细节：浅肉色 -> 浅紫色
+      '#FFFFFE': '#E0E7FF', // 高亮：白色 -> 极浅紫色
       
-      // 深色部分 - 在深色主题下变为浅色
-      '#823746': '#E1BEE7', // 浅紫色
-      '#5D4E75': '#B39DDB', // 浅紫色
+      // 其他橙色系调整为紫蓝色系
+      '#F97316': '#6366F1', // 橙色 -> 靛蓝色
+      '#FB923C': '#818CF8', // 浅橙色 -> 浅靛蓝色
+      '#FED7AA': '#C7D2FE', // 极浅橙色 -> 极浅靛蓝色
+      '#FDBA74': '#A5B4FC', // 中橙色 -> 中靛蓝色
+      '#F59E0B': '#4F46E5', // 琥珀色 -> 深靛蓝色
+      '#D97706': '#3730A3', // 深橙色 -> 极深靛蓝色
+      '#92400E': '#1E1B4B', // 极深橙色 -> 最深紫蓝色
       
-      // 浅色部分 - 在深色主题下变为深色
-      '#FDE1BC': '#3E2723', // 深棕色
-      '#FCDCB4': '#5D4037', // 中等棕色
-      '#FFFFFE': '#424242', // 深灰色
+      // 通用橙色系调整为紫蓝色系
+      '#FF6B35': '#7C3AED',
+      '#FF8C42': '#8B5CF6', 
+      '#FFA726': '#A78BFA',
+      '#FFB74D': '#C4B5FD',
+      '#FFCC80': '#DDD6FE',
+      
+      // 深色部分变为浅色
+      '#2C3E50': '#B0BEC5',
+      '#34495E': '#CFD8DC',
+      '#1A1A1A': '#ECEFF1',
+      '#333333': '#F5F5F5',
+      
+      // 浅色部分变为深色
+      '#F8F9FA': '#263238',
+      '#FFFFFF': '#37474F',
+      '#E9ECEF': '#455A64'
     }
   };
-
-  return themeColors[theme];
+  
+  return mappings[theme];
 }
 
 /**

@@ -15,6 +15,8 @@ interface ThemeLogoProps {
   height?: number | string;
   /** CSS类名 */
   className?: string;
+  /** 强制使用指定主题，不跟随当前主题 */
+  forceTheme?: 'light' | 'dark';
   /** 自定义颜色映射 */
   customColorMapping?: {
     light?: ColorMapping;
@@ -36,6 +38,7 @@ export function ThemeLogo({
   width = 'auto',
   height = 'auto',
   className = '',
+  forceTheme,
   customColorMapping,
   onError,
   onLoad
@@ -85,11 +88,12 @@ export function ThemeLogo({
   const themedSvgContent = React.useMemo(() => {
     if (!svgContent) return '';
 
-    const theme = isDark ? 'dark' : 'light';
+    // 使用强制主题或当前主题
+    const theme = forceTheme || (isDark ? 'dark' : 'light');
     const customMapping = customColorMapping?.[theme];
     
     return applySVGTheme(svgContent, theme, customMapping);
-  }, [svgContent, isDark, customColorMapping]);
+  }, [svgContent, isDark, forceTheme, customColorMapping]);
 
   // 处理SVG尺寸
   const processedSvgContent = React.useMemo(() => {
