@@ -68,9 +68,16 @@ export function extractColorsFromSVG(svgContent: string): string[] {
  * @returns 替换后的SVG内容
  */
 export function replaceSVGColors(svgContent: string, colorMapping: ColorMapping): string {
+  console.log('🔧 replaceSVGColors: 开始颜色替换');
+  console.log('  - 颜色映射条目数:', Object.keys(colorMapping).length);
+  console.log('  - 颜色映射:', colorMapping);
+  
   let result = svgContent;
+  let replacementCount = 0;
   
   Object.entries(colorMapping).forEach(([oldColor, newColor]) => {
+    const beforeLength = result.length;
+    const beforeMatches = (result.match(new RegExp(oldColor.replace('#', '\\#'), 'gi')) || []).length;
     const oldColorUpper = oldColor.toUpperCase();
     const oldColorLower = oldColor.toLowerCase();
     
@@ -137,7 +144,20 @@ export function replaceSVGColors(svgContent: string, colorMapping: ColorMapping)
       new RegExp(`(?<![a-fA-F0-9])${escapedLower}(?![a-fA-F0])`, 'g'),
       newColor
     );
+    
+    const afterLength = result.length;
+    const afterMatches = (result.match(new RegExp(newColor.replace('#', '\\#'), 'gi')) || []).length;
+    
+    if (beforeMatches > 0) {
+      console.log(`  ✨ 替换 ${oldColor} -> ${newColor}:`);
+      console.log(`    - 替换前匹配数: ${beforeMatches}`);
+      console.log(`    - 替换后新颜色数: ${afterMatches}`);
+      replacementCount++;
+    }
   });
+  
+  console.log(`🎯 replaceSVGColors: 完成替换，共处理 ${replacementCount} 种颜色`);
+  console.log(`  - 内容长度变化: ${svgContent.length} -> ${result.length}`);
   
   return result;
 }
@@ -155,6 +175,22 @@ export function getThemeColorMapping(theme: 'light' | 'dark'): ColorMapping {
       '#823746': '#823746', // 水獭轮廓深红棕色
       '#FCDCB4': '#FCDCB4', // 水獭细节浅肉色
       '#FFFFFE': '#FFFFFE', // 高亮白色
+      
+      // SVG中实际存在的其他颜色保持不变
+      '#260B1A': '#260B1A', // 深色
+      '#D7DCE4': '#D7DCE4', // 浅灰
+      '#E4E7EA': '#E4E7EA', // 极浅灰
+      '#E8683A': '#E8683A', // 橙红色
+      '#F58948': '#F58948', // 橙色
+      '#FCFAF6': '#FCFAF6', // 极浅色
+      '#FD9F2B': '#FD9F2B', // 黄橙色
+      '#FDEDD0': '#FDEDD0', // 浅黄色
+      '#FEA531': '#FEA531', // 橙黄色
+      '#FF9D0E': '#FF9D0E', // 橙色
+      '#FFBF35': '#FFBF35', // 黄色
+      '#FFC745': '#FFC745', // 浅黄色
+      '#FFCC56': '#FFCC56', // 淡黄色
+      '#FFCEA6': '#FFCEA6', // 极浅橙色
       
       // 其他可能的橙色系
       '#F97316': '#F97316', // 橙色
@@ -184,38 +220,54 @@ export function getThemeColorMapping(theme: 'light' | 'dark'): ColorMapping {
       '#E9ECEF': '#E9ECEF'
     },
     dark: {
-      // SVG中实际存在的颜色映射为紫蓝色系
-      '#FDE1BC': '#8B5CF6', // 水獭身体：浅橙色 -> 紫色
-      '#823746': '#312E81', // 水獭轮廓：深红棕色 -> 深紫蓝色
-      '#FCDCB4': '#A78BFA', // 水獭细节：浅肉色 -> 浅紫色
-      '#FFFFFE': '#E0E7FF', // 高亮：白色 -> 极浅紫色
+      // 水獭身体 - 黑色主调
+      '#FDE1BC': '#1A1A1A', // 浅橙色 -> 深黑色
+      '#823746': '#2D2D2D', // 深红棕色 -> 深灰色
+      '#FCDCB4': '#404040', // 浅橙色 -> 中灰色
+      '#FFFFFE': '#E5E5E5', // 白色 -> 浅银灰色
       
-      // 其他橙色系调整为紫蓝色系
-      '#F97316': '#6366F1', // 橙色 -> 靛蓝色
-      '#FB923C': '#818CF8', // 浅橙色 -> 浅靛蓝色
-      '#FED7AA': '#C7D2FE', // 极浅橙色 -> 极浅靛蓝色
-      '#FDBA74': '#A5B4FC', // 中橙色 -> 中靛蓝色
-      '#F59E0B': '#4F46E5', // 琥珀色 -> 深靛蓝色
-      '#D97706': '#3730A3', // 深橙色 -> 极深靛蓝色
-      '#92400E': '#1E1B4B', // 极深橙色 -> 最深紫蓝色
+      // 文件夹主体 - 黑灰色系渐变
+      '#260B1A': '#0F0F0F', // 深色 -> 极深黑色
+      '#D7DCE4': '#B8B8B8', // 浅灰 -> 银灰色
+      '#E4E7EA': '#D0D0D0', // 极浅灰 -> 浅银灰色
+      '#E8683A': '#2D2D2D', // 橙红色 -> 深灰色
+      '#F58948': '#1A1A1A', // 橙色 -> 深黑色
+      '#FCFAF6': '#F5F5F5', // 极浅色 -> 极浅灰色
+      '#FD9F2B': '#404040', // 黄橙色 -> 中灰色
+      '#FDEDD0': '#808080', // 浅黄色 -> 中银灰色
+      '#FEA531': '#2D2D2D', // 橙黄色 -> 深灰色
+      '#FF9D0E': '#1A1A1A', // 橙色 -> 深黑色
+      '#FFBF35': '#404040', // 黄色 -> 中灰色
+      '#FFC745': '#808080', // 浅黄色 -> 中银灰色
+      '#FFCC56': '#A0A0A0', // 淡黄色 -> 浅银灰色
+      '#FFCEA6': '#E5E5E5', // 极浅橙色 -> 浅银灰色
       
-      // 通用橙色系调整为紫蓝色系
-      '#FF6B35': '#7C3AED',
-      '#FF8C42': '#8B5CF6', 
-      '#FFA726': '#A78BFA',
-      '#FFB74D': '#C4B5FD',
-      '#FFCC80': '#DDD6FE',
+      // 细节装饰 - 深灰色系
+      '#F97316': '#2D2D2D', // 橙色 -> 深灰色
+      '#FB923C': '#404040', // 浅橙色 -> 中灰色
+      '#FED7AA': '#A0A0A0', // 极浅橙色 -> 浅银灰色
+      '#FDBA74': '#808080', // 中橙色 -> 中银灰色
+      '#F59E0B': '#2D2D2D', // 琥珀色 -> 深灰色
+      '#D97706': '#1A1A1A', // 深橙色 -> 深黑色
+      '#92400E': '#1A1A1A', // 极深橙色 -> 深黑色
       
-      // 深色部分变为浅色
-      '#2C3E50': '#B0BEC5',
-      '#34495E': '#CFD8DC',
-      '#1A1A1A': '#ECEFF1',
-      '#333333': '#F5F5F5',
+      // 边框和线条 - 银灰色系
+      '#FF6B35': '#2D2D2D',
+      '#FF8C42': '#404040', 
+      '#FFA726': '#808080',
+      '#FFB74D': '#A0A0A0',
+      '#FFCC80': '#E5E5E5',
       
-      // 浅色部分变为深色
-      '#F8F9FA': '#263238',
-      '#FFFFFF': '#37474F',
-      '#E9ECEF': '#455A64'
+      // 深色部分使用黑灰色
+      '#2C3E50': '#1F1F1F',
+      '#34495E': '#2A2A2A',
+      '#1A1A1A': '#333333',
+      '#333333': '#4A4A4A',
+      
+      // 浅色部分使用银灰色
+      '#F8F9FA': '#2A2A2A',
+      '#FFFFFF': '#333333',
+      '#E9ECEF': '#4A4A4A'
     }
   };
   
@@ -234,10 +286,27 @@ export function applySVGTheme(
   theme: 'light' | 'dark',
   customMapping?: ColorMapping
 ): string {
+  console.log('🎨 applySVGTheme: 开始应用主题');
+  console.log('  - 主题:', theme);
+  console.log('  - SVG内容长度:', svgContent.length);
+  console.log('  - 是否有自定义映射:', !!customMapping);
+  
+  // 提取SVG中的实际颜色
+  const extractedColors = extractColorsFromSVG(svgContent);
+  console.log('  - SVG中提取的颜色:', extractedColors);
+  
   const themeMapping = getThemeColorMapping(theme);
   const finalMapping = customMapping ? { ...themeMapping, ...customMapping } : themeMapping;
   
-  return replaceSVGColors(svgContent, finalMapping);
+  console.log('  - 最终颜色映射键数:', Object.keys(finalMapping).length);
+  
+  const result = replaceSVGColors(svgContent, finalMapping);
+  
+  console.log('🏁 applySVGTheme: 主题应用完成');
+  console.log('  - 结果长度:', result.length);
+  console.log('  - 内容是否改变:', svgContent !== result);
+  
+  return result;
 }
 
 /**

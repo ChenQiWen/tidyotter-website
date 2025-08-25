@@ -54,10 +54,13 @@ export function ThemeLogo({
 
     const loadSVG = async () => {
       try {
+        console.log('🔄 ThemeLogo: 开始加载SVG:', src);
         setIsLoading(true);
         setError(null);
         
         const content = await loadSVGFromURL(src);
+        console.log('✅ ThemeLogo: SVG加载成功, 内容长度:', content.length);
+        console.log('📄 ThemeLogo: SVG内容预览:', content.substring(0, 200) + '...');
         
         if (isMounted) {
           setSvgContent(content);
@@ -68,7 +71,7 @@ export function ThemeLogo({
           const errorMessage = err instanceof Error ? err.message : 'Failed to load SVG';
           setError(errorMessage);
           onError?.();
-          console.error('ThemeLogo: Failed to load SVG:', err);
+          console.error('❌ ThemeLogo: Failed to load SVG:', err);
         }
       } finally {
         if (isMounted) {
@@ -86,13 +89,40 @@ export function ThemeLogo({
 
   // 应用主题颜色
   const themedSvgContent = React.useMemo(() => {
-    if (!svgContent) return '';
+    if (!svgContent) {
+      console.log('⚠️ ThemeLogo: SVG内容为空，跳过主题应用');
+      return '';
+    }
 
     // 使用强制主题或当前主题
     const theme = forceTheme || (isDark ? 'dark' : 'light');
     const customMapping = customColorMapping?.[theme];
     
-    return applySVGTheme(svgContent, theme, customMapping);
+    console.log('🎨 ThemeLogo: 应用主题颜色');
+    console.log('  - 当前主题:', theme);
+    console.log('  - isDark:', isDark);
+    console.log('  - forceTheme:', forceTheme);
+    console.log('  - 自定义颜色映射:', customMapping);
+    
+    const result = applySVGTheme(svgContent, theme, customMapping);
+    
+    console.log('🔍 ThemeLogo: 颜色应用结果');
+    console.log('  - 原始内容长度:', svgContent.length);
+    console.log('  - 处理后内容长度:', result.length);
+    console.log('  - 内容是否发生变化:', svgContent !== result);
+    
+    if (svgContent !== result) {
+      console.log('✨ ThemeLogo: 检测到颜色替换');
+      // 显示前后对比的一小部分
+      const originalColors = svgContent.match(/#[0-9A-Fa-f]{6}/g) || [];
+      const newColors = result.match(/#[0-9A-Fa-f]{6}/g) || [];
+      console.log('  - 原始颜色:', originalColors.slice(0, 5));
+      console.log('  - 新颜色:', newColors.slice(0, 5));
+    } else {
+      console.log('⚠️ ThemeLogo: 未检测到颜色替换');
+    }
+    
+    return result;
   }, [svgContent, isDark, forceTheme, customColorMapping]);
 
   // 处理SVG尺寸
