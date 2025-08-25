@@ -14,7 +14,7 @@ import {
 import { Menu as MenuIcon, Close as CloseIcon } from '@/components/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ThemeLogo } from '@/components/ui/ThemeLogo';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
@@ -25,9 +25,7 @@ export function Header() {
   const t = useTranslations('navigation');
   const router = useRouter();
   
-  // 使用统一的主题响应式logo
-  const logoSrc = '/logo/1x.png';
-  const logoSrcSet = '/logo/1x.png 1x, /logo/2x.png 2x, /logo/3x.png 3x';
+
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -100,16 +98,12 @@ export function Header() {
                       justifyContent: 'center',
                     }}
                   >
-                    <Image
-                      src={logoSrc}
-                      alt="TidyOtter Logo"
-                      width={36}
-                      height={36}
-                      className="w-9 h-9 md:w-10 md:h-10 transition-all duration-300"
-                      style={{
-                        filter: 'drop-shadow(0 2px 4px rgba(255, 140, 66, 0.3))',
-                      }}
-                      sizes="(max-width: 768px) 36px, 40px"
+                    <ThemeLogo
+                      src="/logo/logo.svg"
+                      width={120}
+                      height={40}
+                      className="h-8 w-auto"
+                      alt="FileZen Logo"
                     />
                   </Box>
                 </Link>

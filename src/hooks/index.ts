@@ -369,7 +369,7 @@ export function useForm<T extends Record<string, any>>(
     if (touched[name] && errors[name]) {
       setErrors(prev => {
         const { [name]: removed, ...rest } = prev;
-        return rest;
+        return rest as Partial<Record<keyof T, string>>;
       });
     }
   }, [touched, errors]);
@@ -385,7 +385,7 @@ export function useForm<T extends Record<string, any>>(
       } else {
         setErrors(prev => {
           const { [name]: removed, ...rest } = prev;
-          return rest;
+          return rest as Partial<Record<keyof T, string>>;
         });
       }
     }

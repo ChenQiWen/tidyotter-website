@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { Download, CalendarToday } from '@/components/icons';
 import { MainLayout, ReservationForm } from '@/components';
+import { ThemeLogo } from '@/components/ui/ThemeLogo';
 import { cn } from '@/utils';
 
 
@@ -33,12 +34,12 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
         <Box className="w-full text-center space-y-8">
           {/* Logo */}
           <Box className="flex justify-center mb-12">
-            <img 
-              src="/logo/1x.png" 
-              srcSet="/logo/1x.png 1x, /logo/2x.png 2x, /logo/3x.png 3x"
-              alt="TidyOtter Logo" 
-              className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64"
-              sizes="(max-width: 640px) 144px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
+            <ThemeLogo
+              src="/logo/logo.svg"
+              width={80}
+              height={80}
+              className="w-16 h-16 md:w-20 md:h-20 mb-6 mx-auto"
+              alt="FileZen Logo"
             />
           </Box>
           

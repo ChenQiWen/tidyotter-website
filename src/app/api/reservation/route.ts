@@ -301,7 +301,6 @@ export async function POST(request: NextRequest) {
       email: validatedData.email,
       locale: validatedData.locale || 'zh',
       hasPhone: !!validatedData.phone,
-      hasMessage: !!validatedData.message,
       timestamp: new Date().toISOString()
     });
     
