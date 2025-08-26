@@ -114,10 +114,10 @@ export function Footer() {
 
       <Container maxWidth="xl" className="relative py-16">
         {/* 链接区域 */}
-        <div className="flex justify-center mb-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 max-w-5xl">
+        <div className="mb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
             {footerSections.map((section) => (
-              <div key={section.title} className="text-center">
+              <div key={section.title} className="text-center px-4 md:px-8">
                 <Typography
                   variant="h6"
                   className="font-bold text-orange-700 dark:text-orange-300 mb-6"
@@ -143,7 +143,7 @@ export function Footer() {
         </div>
 
         {/* 社交媒体链接 */}
-        <div className="flex justify-center space-x-6 mb-16">
+        <div className="flex justify-center space-x-10 mb-16">
           {socialLinks.map((social) => (
             <IconButton
               key={social.name}
