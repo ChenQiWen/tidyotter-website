@@ -47,6 +47,7 @@ export function ThemeLogo({
   const [svgContent, setSvgContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // 加载SVG内容
   useEffect(() => {
@@ -64,6 +65,7 @@ export function ThemeLogo({
         
         if (isMounted) {
           setSvgContent(content);
+          setIsVisible(true);
           onLoad?.();
         }
       } catch (err) {
@@ -147,15 +149,18 @@ export function ThemeLogo({
     return processed;
   }, [themedSvgContent, width, height]);
 
-  // 加载状态
+  // 加载状态 - 改为透明，避免闪烁
   if (isLoading) {
     return (
       <div 
         className={`inline-flex items-center justify-center ${className}`}
         style={{ width, height }}
       >
-        <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded" 
-             style={{ width: width === 'auto' ? '100px' : width, height: height === 'auto' ? '100px' : height }} />
+        {/* 使用透明占位符，避免显示灰色方块 */}
+        <div 
+          className="opacity-0" 
+          style={{ width: width === 'auto' ? '100px' : width, height: height === 'auto' ? '100px' : height }} 
+        />
       </div>
     );
   }
@@ -184,10 +189,12 @@ export function ThemeLogo({
     );
   }
 
-  // 正常显示SVG
+  // 正常显示SVG - 添加渐入动画
   return (
     <div 
-      className={`inline-flex items-center justify-center ${className}`}
+      className={`inline-flex items-center justify-center transition-all duration-500 ease-out ${className} ${
+        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+      }`}
       dangerouslySetInnerHTML={{ __html: processedSvgContent }}
       style={{
         width: width === 'auto' ? undefined : width,

@@ -79,6 +79,9 @@ export default async function LocaleLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
+        {/* 预加载关键资源 */}
+        <link rel="preload" href="/logo/logo.svg" as="image" type="image/svg+xml" />
+        
         {/* Google Fonts - 国际化字体配置 */}
         <link
           href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Comfortaa:wght@300..700&family=Quicksand:wght@300..700&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap"
