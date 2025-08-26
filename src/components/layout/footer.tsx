@@ -112,42 +112,7 @@ export function Footer() {
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full blur-2xl" />
       </div>
 
-      <Container maxWidth="xl" className="relative py-20">
-        {/* 主要内容区域 */}
-        <div className="text-center mb-20">
-          {/* Logo 和标题 */}
-          <Link href="/" className="inline-flex flex-col items-center space-y-6 group">
-            <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-yellow-400 to-pink-400 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <span className="text-white font-bold text-3xl">T</span>
-            </div>
-            <Typography
-              variant="h3"
-              className="font-bold bg-gradient-to-r from-orange-600 via-yellow-600 to-pink-600 bg-clip-text text-transparent"
-            >
-              TidyOtter
-            </Typography>
-          </Link>
-
-          {/* 产品描述 */}
-          <Typography
-            variant="h6"
-            className="mt-10 text-orange-800 dark:text-orange-200 max-w-2xl mx-auto font-medium leading-relaxed"
-          >
-            {t('description')}
-          </Typography>
-
-          {/* 开发中提示 */}
-          <div className="mt-12 inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900 dark:to-yellow-900 rounded-full border-2 border-orange-200 dark:border-orange-700">
-            <div className="w-4 h-4 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full animate-pulse mr-4" />
-            <Typography
-              variant="body1"
-              className="text-orange-700 dark:text-orange-300 font-medium"
-            >
-              本产品正在开发中，敬请期待正式版本的发布。
-            </Typography>
-          </div>
-        </div>
-
+      <Container maxWidth="xl" className="relative py-16">
         {/* 链接区域 */}
         <div className="flex justify-center mb-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 max-w-5xl">
