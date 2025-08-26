@@ -149,30 +149,32 @@ export function Footer() {
         </div>
 
         {/* 链接区域 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {footerSections.map((section) => (
-            <div key={section.title} className="text-center md:text-left">
-              <Typography
-                variant="h6"
-                className="font-bold text-orange-700 dark:text-orange-300 mb-4"
-              >
-                {section.title}
-              </Typography>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.key}>
-                    <Link
-                      href={link.href}
-                      className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-sm font-medium hover:underline decoration-2 decoration-orange-300"
-                      onClick={() => handleLinkClick(section.title, link.key)}
-                    >
-                      {t(`${section.section}.${link.key}`)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="flex justify-center mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl">
+            {footerSections.map((section) => (
+              <div key={section.title} className="text-center">
+                <Typography
+                  variant="h6"
+                  className="font-bold text-orange-700 dark:text-orange-300 mb-4"
+                >
+                  {section.title}
+                </Typography>
+                <ul className="space-y-3">
+                  {section.links.map((link) => (
+                    <li key={link.key}>
+                      <Link
+                        href={link.href}
+                        className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-sm font-medium hover:underline decoration-2 decoration-orange-300"
+                        onClick={() => handleLinkClick(section.title, link.key)}
+                      >
+                        {t(`${section.section}.${link.key}`)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* 社交媒体链接 */}
