@@ -146,20 +146,8 @@ function generateSitemapIndex(): string {
 
 export async function GET() {
   try {
-    // 移除动态请求参数，使用静态生成
-    const type = null; // 默认生成主 sitemap
-    
-    let xmlContent: string;
-    
-    // 根据类型生成不同的sitemap
-    switch (type) {
-      case 'index':
-        xmlContent = generateSitemapIndex();
-        break;
-      default:
-        xmlContent = generateSitemap();
-        break;
-    }
+    // 直接生成主 sitemap，不使用动态参数
+    const xmlContent = generateSitemap();
     
     return new NextResponse(xmlContent, {
       status: 200,
