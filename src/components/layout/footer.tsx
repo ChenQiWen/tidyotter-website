@@ -7,7 +7,6 @@ import {
   Container,
   Typography,
   IconButton,
-  Divider,
 } from '@mui/material';
 import {
   GitHub,
@@ -16,7 +15,6 @@ import {
   Email,
   Language as LanguageIcon,
 } from '@mui/icons-material';
-import { cn } from '@/utils';
 import type { Locale } from '@/types';
 
 export function Footer() {
@@ -103,123 +101,130 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
-      <Container maxWidth="xl" className="py-12">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand Section */}
-          <div>
-            <div className="space-y-4">
-              {/* Logo */}
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">FZ</span>
-                </div>
-                <Typography
-                  variant="h5"
-                  className="font-bold text-gray-900 dark:text-white"
-                >
-                  TidyOtter
-                </Typography>
-              </Link>
+    <footer className="relative overflow-hidden">
+      {/* 渐变背景 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50 dark:from-orange-950 dark:via-yellow-950 dark:to-pink-950" />
+      
+      {/* 装饰性背景图案 */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full blur-2xl" />
+      </div>
 
-              {/* Description */}
-              <Typography
-                variant="body2"
-                className="text-gray-600 dark:text-gray-400 max-w-sm"
-              >
-                {t('description')}
-              </Typography>
-
-              {/* Social Links */}
-              <div className="flex space-x-2">
-                {socialLinks.map((social) => (
-                  <IconButton
-                    key={social.name}
-                    component="a"
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn('transition-colors', social.color)}
-                    onClick={() => handleSocialClick(social.name)}
-                    size="small"
-                  >
-                    {social.icon}
-                  </IconButton>
-                ))}
-              </div>
+      <Container maxWidth="xl" className="relative py-16">
+        {/* 主要内容区域 */}
+        <div className="text-center mb-12">
+          {/* Logo 和标题 */}
+          <Link href="/" className="inline-flex flex-col items-center space-y-4 group">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 via-yellow-400 to-pink-400 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+              <span className="text-white font-bold text-2xl">T</span>
             </div>
-          </div>
+            <Typography
+              variant="h4"
+              className="font-bold bg-gradient-to-r from-orange-600 via-yellow-600 to-pink-600 bg-clip-text text-transparent"
+            >
+              TidyOtter
+            </Typography>
+          </Link>
 
-          {/* Footer Links */}
-          <div className="md:col-span-2">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {footerSections.map((section) => (
-                <div key={section.title}>
-                  <div className="space-y-3">
-                    <Typography
-                      variant="subtitle2"
-                      className="font-semibold text-gray-900 dark:text-white uppercase tracking-wider"
-                    >
-                      {section.title}
-                    </Typography>
-                    <ul className="space-y-2">
-                      {section.links.map((link) => (
-                        <li key={link.key}>
-                          <Link
-                            href={link.href}
-                            className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors text-sm"
-                            onClick={() => handleLinkClick(section.title, link.key)}
-                          >
-                            {t(`${section.section}.${link.key}`)}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <Divider className="my-8 border-gray-200 dark:border-gray-700" />
-
-        {/* Bottom Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-          {/* Copyright */}
+          {/* 产品描述 */}
           <Typography
-            variant="body2"
-            className="text-gray-600 dark:text-gray-400 text-center sm:text-left"
+            variant="h6"
+            className="mt-6 text-orange-800 dark:text-orange-200 max-w-2xl mx-auto font-medium"
           >
-            © {currentYear} TidyOtter. {t('copyright')}
+            {t('description')}
           </Typography>
 
-          {/* Language & Additional Info */}
-          <div className="flex items-center space-x-4">
-            {/* Current Language */}
-            <div className="flex items-center space-x-1 text-gray-600 dark:text-gray-400">
-              <LanguageIcon fontSize="small" />
-              <Typography variant="body2">
-                {locale === 'zh' ? '中文' : 'English'}
-              </Typography>
-            </div>
-
-            {/* Version Info */}
+          {/* 开发中提示 */}
+          <div className="mt-8 inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900 dark:to-yellow-900 rounded-full border-2 border-orange-200 dark:border-orange-700">
+            <div className="w-3 h-3 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full animate-pulse mr-3" />
             <Typography
               variant="body2"
-              className="text-gray-500 dark:text-gray-500 hidden sm:block"
+              className="text-orange-700 dark:text-orange-300 font-medium"
             >
-              v1.0.0
+              本产品正在开发中，敬请期待正式版本的发布。
             </Typography>
           </div>
         </div>
 
-        {/* Additional Footer Info */}
-        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+        {/* 链接区域 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          {footerSections.map((section) => (
+            <div key={section.title} className="text-center md:text-left">
+              <Typography
+                variant="h6"
+                className="font-bold text-orange-700 dark:text-orange-300 mb-4"
+              >
+                {section.title}
+              </Typography>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.key}>
+                    <Link
+                      href={link.href}
+                      className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-sm font-medium hover:underline decoration-2 decoration-orange-300"
+                      onClick={() => handleLinkClick(section.title, link.key)}
+                    >
+                      {t(`${section.section}.${link.key}`)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* 社交媒体链接 */}
+        <div className="flex justify-center space-x-4 mb-12">
+          {socialLinks.map((social) => (
+            <IconButton
+              key={social.name}
+              component="a"
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 bg-gradient-to-br from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+              onClick={() => handleSocialClick(social.name)}
+            >
+              {social.icon}
+            </IconButton>
+          ))}
+        </div>
+
+        {/* 分隔线 */}
+        <div className="h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent mb-8" />
+
+        {/* 底部信息 */}
+        <div className="text-center space-y-4">
+          {/* 版权信息 */}
+          <Typography
+            variant="body2"
+            className="text-orange-600 dark:text-orange-400"
+          >
+            © {currentYear} TidyOtter. {t('copyright')}
+          </Typography>
+
+          {/* 语言和版本 */}
+          <div className="flex justify-center items-center space-x-6">
+            <div className="flex items-center space-x-2 px-4 py-2 bg-orange-100 dark:bg-orange-900 rounded-full">
+              <LanguageIcon className="text-orange-600 dark:text-orange-400" fontSize="small" />
+              <Typography variant="body2" className="text-orange-700 dark:text-orange-300 font-medium">
+                {locale === 'zh' ? '中文' : 'English'}
+              </Typography>
+            </div>
+            <Typography
+              variant="body2"
+              className="text-orange-500 dark:text-orange-500 px-3 py-1 bg-orange-50 dark:bg-orange-950 rounded-full"
+            >
+              v1.0.0
+            </Typography>
+          </div>
+
+          {/* 额外信息 */}
           <Typography
             variant="caption"
-            className="text-gray-500 dark:text-gray-500 text-center block"
+            className="text-orange-500 dark:text-orange-500 block mt-6"
           >
             {t('additional_info')}
           </Typography>
