@@ -36,46 +36,11 @@ function HeroSection({ onReservationClick }: { onReservationClick: () => void })
           <Box className="flex justify-center mb-12">
             <ThemeLogo
               src="/logo/logo.svg"
-              width={80}
-              height={80}
-              className="w-16 h-16 md:w-20 md:h-20 mb-6 mx-auto"
+              width={200}
+              height={200}
+              className="w-40 h-40 md:w-48 md:h-48 mb-6 mx-auto"
               alt="FileZen Logo"
             />
-          </Box>
-          
-          {/* 主题对比展示 */}
-          <Box className="flex justify-center items-center gap-8 mb-8">
-            <Box className="text-center">
-              <Typography variant="body2" className="text-white/80 mb-2 text-sm">
-                浅色主题
-              </Typography>
-              <Box className="p-4 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30">
-                <ThemeLogo
-                  src="/logo/logo.svg"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12"
-                  alt="FileZen Logo - Light Theme"
-                  forceTheme="light"
-                />
-              </Box>
-            </Box>
-            
-            <Box className="text-center">
-              <Typography variant="body2" className="text-white/80 mb-2 text-sm">
-                深色主题
-              </Typography>
-              <Box className="p-4 bg-gray-900/40 backdrop-blur-sm rounded-xl border border-white/20">
-                <ThemeLogo
-                  src="/logo/logo.svg"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12"
-                  alt="FileZen Logo - Dark Theme"
-                  forceTheme="dark"
-                />
-              </Box>
-            </Box>
           </Box>
           
           {/* TidyOtter 标题 */}
