@@ -112,16 +112,16 @@ export function Footer() {
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full blur-2xl" />
       </div>
 
-      <Container maxWidth="xl" className="relative py-16">
+      <Container maxWidth="xl" className="relative py-20">
         {/* 主要内容区域 */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-20">
           {/* Logo 和标题 */}
-          <Link href="/" className="inline-flex flex-col items-center space-y-4 group">
-            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 via-yellow-400 to-pink-400 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <span className="text-white font-bold text-2xl">T</span>
+          <Link href="/" className="inline-flex flex-col items-center space-y-6 group">
+            <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-yellow-400 to-pink-400 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+              <span className="text-white font-bold text-3xl">T</span>
             </div>
             <Typography
-              variant="h4"
+              variant="h3"
               className="font-bold bg-gradient-to-r from-orange-600 via-yellow-600 to-pink-600 bg-clip-text text-transparent"
             >
               TidyOtter
@@ -131,16 +131,16 @@ export function Footer() {
           {/* 产品描述 */}
           <Typography
             variant="h6"
-            className="mt-6 text-orange-800 dark:text-orange-200 max-w-2xl mx-auto font-medium"
+            className="mt-10 text-orange-800 dark:text-orange-200 max-w-2xl mx-auto font-medium leading-relaxed"
           >
             {t('description')}
           </Typography>
 
           {/* 开发中提示 */}
-          <div className="mt-8 inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900 dark:to-yellow-900 rounded-full border-2 border-orange-200 dark:border-orange-700">
-            <div className="w-3 h-3 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full animate-pulse mr-3" />
+          <div className="mt-12 inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900 dark:to-yellow-900 rounded-full border-2 border-orange-200 dark:border-orange-700">
+            <div className="w-4 h-4 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full animate-pulse mr-4" />
             <Typography
-              variant="body2"
+              variant="body1"
               className="text-orange-700 dark:text-orange-300 font-medium"
             >
               本产品正在开发中，敬请期待正式版本的发布。
@@ -149,22 +149,22 @@ export function Footer() {
         </div>
 
         {/* 链接区域 */}
-        <div className="flex justify-center mb-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl">
+        <div className="flex justify-center mb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 max-w-5xl">
             {footerSections.map((section) => (
               <div key={section.title} className="text-center">
                 <Typography
                   variant="h6"
-                  className="font-bold text-orange-700 dark:text-orange-300 mb-4"
+                  className="font-bold text-orange-700 dark:text-orange-300 mb-6"
                 >
                   {section.title}
                 </Typography>
-                <ul className="space-y-3">
+                <ul className="space-y-4">
                   {section.links.map((link) => (
                     <li key={link.key}>
                       <Link
                         href={link.href}
-                        className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-sm font-medium hover:underline decoration-2 decoration-orange-300"
+                        className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-base font-medium hover:underline decoration-2 decoration-orange-300"
                         onClick={() => handleLinkClick(section.title, link.key)}
                       >
                         {t(`${section.section}.${link.key}`)}
@@ -178,7 +178,7 @@ export function Footer() {
         </div>
 
         {/* 社交媒体链接 */}
-        <div className="flex justify-center space-x-4 mb-12">
+        <div className="flex justify-center space-x-6 mb-16">
           {socialLinks.map((social) => (
             <IconButton
               key={social.name}
@@ -186,7 +186,7 @@ export function Footer() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-14 h-14 bg-gradient-to-br from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+              className="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 hover:from-orange-500 hover:to-yellow-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
               onClick={() => handleSocialClick(social.name)}
             >
               {social.icon}
@@ -195,29 +195,29 @@ export function Footer() {
         </div>
 
         {/* 分隔线 */}
-        <div className="h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent mb-8" />
+        <div className="h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent mb-12" />
 
         {/* 底部信息 */}
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-6">
           {/* 版权信息 */}
           <Typography
-            variant="body2"
+            variant="body1"
             className="text-orange-600 dark:text-orange-400"
           >
             © {currentYear} TidyOtter. {t('copyright')}
           </Typography>
 
           {/* 语言和版本 */}
-          <div className="flex justify-center items-center space-x-6">
-            <div className="flex items-center space-x-2 px-4 py-2 bg-orange-100 dark:bg-orange-900 rounded-full">
+          <div className="flex justify-center items-center space-x-8">
+            <div className="flex items-center space-x-3 px-6 py-3 bg-orange-100 dark:bg-orange-900 rounded-full">
               <LanguageIcon className="text-orange-600 dark:text-orange-400" fontSize="small" />
-              <Typography variant="body2" className="text-orange-700 dark:text-orange-300 font-medium">
+              <Typography variant="body1" className="text-orange-700 dark:text-orange-300 font-medium">
                 {locale === 'zh' ? '中文' : 'English'}
               </Typography>
             </div>
             <Typography
-              variant="body2"
-              className="text-orange-500 dark:text-orange-500 px-3 py-1 bg-orange-50 dark:bg-orange-950 rounded-full"
+              variant="body1"
+              className="text-orange-500 dark:text-orange-500 px-4 py-2 bg-orange-50 dark:bg-orange-950 rounded-full"
             >
               v1.0.0
             </Typography>
@@ -225,8 +225,8 @@ export function Footer() {
 
           {/* 额外信息 */}
           <Typography
-            variant="caption"
-            className="text-orange-500 dark:text-orange-500 block mt-6"
+            variant="body2"
+            className="text-orange-500 dark:text-orange-500 block mt-8"
           >
             {t('additional_info')}
           </Typography>
