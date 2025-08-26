@@ -112,24 +112,24 @@ export function Footer() {
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full blur-2xl" />
       </div>
 
-      <Container maxWidth="xl" className="relative py-16">
+      <Container maxWidth="xl" className="relative py-20">
         {/* 链接区域 */}
-        <div className="mb-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+        <div className="mb-24">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
             {footerSections.map((section) => (
-              <div key={section.title} className="text-center px-4 md:px-8">
+              <div key={section.title} className="text-center">
                 <Typography
-                  variant="h5"
-                  className="font-bold text-orange-700 dark:text-orange-300 mb-8 text-lg md:text-xl"
+                  variant="h4"
+                  className="font-extrabold bg-gradient-to-r from-orange-600 via-pink-600 to-yellow-600 bg-clip-text text-transparent mb-10 text-xl md:text-2xl tracking-wide"
                 >
                   {section.title}
                 </Typography>
-                <ul className="space-y-5">
+                <ul className="space-y-6">
                   {section.links.map((link) => (
                     <li key={link.key}>
                       <Link
                         href={link.href}
-                        className="text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-200 transition-colors text-base font-medium hover:underline decoration-2 decoration-orange-300"
+                        className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-300 text-lg font-normal hover:font-medium hover:scale-105 inline-block hover:translate-x-1"
                         onClick={() => handleLinkClick(section.title, link.key)}
                       >
                         {t(`${section.section}.${link.key}`)}
