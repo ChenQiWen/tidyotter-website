@@ -143,7 +143,7 @@ export function Footer() {
         </div>
 
         {/* 社交媒体链接 */}
-        <div className="flex justify-center space-x-10 mb-16">
+        <div className="flex justify-center items-center gap-8 mb-16">
           {socialLinks.map((social) => (
             <IconButton
               key={social.name}
