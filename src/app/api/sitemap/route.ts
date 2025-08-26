@@ -144,10 +144,10 @@ function generateSitemapIndex(): string {
   return xml;
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const type = searchParams.get('type');
+    // 移除动态请求参数，使用静态生成
+    const type = null; // 默认生成主 sitemap
     
     let xmlContent: string;
     
@@ -182,8 +182,8 @@ export async function GET(request: Request) {
 }
 
 // 支持HEAD请求
-export async function HEAD(request: Request) {
-  const response = await GET(request);
+export async function HEAD() {
+  const response = await GET();
   return new NextResponse(null, {
     status: response.status,
     headers: response.headers,
