@@ -119,12 +119,12 @@ export function Footer() {
             {footerSections.map((section) => (
               <div key={section.title} className="text-center px-4 md:px-8">
                 <Typography
-                  variant="h6"
-                  className="font-bold text-orange-700 dark:text-orange-300 mb-6"
+                  variant="h5"
+                  className="font-bold text-orange-700 dark:text-orange-300 mb-8 text-lg md:text-xl"
                 >
                   {section.title}
                 </Typography>
-                <ul className="space-y-4">
+                <ul className="space-y-5">
                   {section.links.map((link) => (
                     <li key={link.key}>
                       <Link
